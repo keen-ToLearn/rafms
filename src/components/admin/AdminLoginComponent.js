@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Form, Label, Input, Col, FormGroup, Button, Card } from 'reactstrap';
 
-class UserLogin extends Component{
+class AdminLogin extends Component{
     constructor(props){
         super(props);
         this.state = {
@@ -22,10 +22,10 @@ class UserLogin extends Component{
         return(
             <div className="container-fluid h-100">
                 <div className="row p-4 h-20 bg-dark">
-                    <h1 className="display-1 text-white">User Login</h1>
+                    <h1 className="display-1 text-white">Admin Login</h1>
                 </div>
                 <div className="row h-80">
-                    <div className="p-5 h-100 col-6 offset-3">
+                    <div className="p-5 h-100 col-10 col-md-6 offset-3">
                         <div className="text-left mt-5">
                             <Card className="p-3 bg-light">
                                 <Form onSubmit={() => this.handleLogin()}>
@@ -34,7 +34,7 @@ class UserLogin extends Component{
                                         <Col md={12}>
                                             <Input type="text" id="username"
                                             name="username" onChange={this.handleInputChange}
-                                            innerRef={(input) => this.username = input} />
+                                            innerRef={(input) => this.username = input}/>
                                         </Col>
                                     </FormGroup>
                                     <FormGroup>
@@ -47,7 +47,7 @@ class UserLogin extends Component{
                                     </FormGroup>
                                     <FormGroup>
                                         <Col md={10}>
-                                            <Link to="/user">
+                                            <Link to="/adminmain">
                                                 <Button type="submit" value="submit" color="info" disabled={this.state.validBtn}>Login</Button>
                                             </Link>
                                         </Col>
@@ -62,4 +62,4 @@ class UserLogin extends Component{
     }
 }
 
-export default UserLogin;
+export default AdminLogin;

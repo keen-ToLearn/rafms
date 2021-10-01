@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Form, Label, Input, Col, FormGroup, Button, Card } from 'reactstrap';
 
-class AdminLogin extends Component{
+class UserLogin extends Component{
     constructor(props){
         super(props);
         this.state = {
@@ -22,7 +22,7 @@ class AdminLogin extends Component{
         return(
             <div className="container-fluid h-100">
                 <div className="row p-4 h-20 bg-dark">
-                    <h1 className="display-1 text-white">Admin Login</h1>
+                    <h1 className="display-1 text-white">User Login</h1>
                 </div>
                 <div className="row h-80">
                     <div className="p-5 h-100 col-6 offset-3">
@@ -34,7 +34,7 @@ class AdminLogin extends Component{
                                         <Col md={12}>
                                             <Input type="text" id="username"
                                             name="username" onChange={this.handleInputChange}
-                                            innerRef={(input) => this.username = input}/>
+                                            innerRef={(input) => this.username = input} />
                                         </Col>
                                     </FormGroup>
                                     <FormGroup>
@@ -47,7 +47,7 @@ class AdminLogin extends Component{
                                     </FormGroup>
                                     <FormGroup>
                                         <Col md={10}>
-                                            <Link to="/admin">
+                                            <Link to="/usermain">
                                                 <Button type="submit" value="submit" color="info" disabled={this.state.validBtn}>Login</Button>
                                             </Link>
                                         </Col>
@@ -62,4 +62,4 @@ class AdminLogin extends Component{
     }
 }
 
-export default AdminLogin;
+export default UserLogin;
