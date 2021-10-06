@@ -32,8 +32,10 @@ class AdminEditProject extends Component{
         return(
             <div className="row">
                 <div className="container-fluid">
-                    <div className="row px-5 border-bottom border-secondary bg-light">
-                        <h1 className="font-weight-normal">Edit Project</h1>
+                    <div className="row border-bottom border-secondary bg-light">
+                        <div className="mx-5 px-5">
+                            <h1 className="font-weight-normal">Edit Project</h1>
+                        </div>
                     </div>
                     <div className="row text-left">
                         <Card className="p-3 mt-5 col-10 col-md-6 offset-3 bg-light">
