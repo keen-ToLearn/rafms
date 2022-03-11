@@ -10,10 +10,19 @@ class AdminLogin extends Component{
         };
         this.handleInputChange = this.handleInputChange.bind(this);
     }
+    preventForwardNavigation(event){
+        if((window.location.pathname === '/adminlogin') && (event.code === 'ArrowRight' && event.altKey))
+            event.preventDefault();
+    }
+    componentDidMount(){
+        document.addEventListener('keydown', event => this.preventForwardNavigation(event));
+    }
     handleInputChange(){
         if(this.username.value === this.props.login.uname && this.password.value === this.props.login.pass){
-            this.setState({ validBtn : !this.state.validBtn });
+            this.setState({ validBtn : false });
         }
+        else
+            this.setState({ validBtn : true });
     }
     handleLogin(event){
         event.preventDefault();
@@ -21,10 +30,13 @@ class AdminLogin extends Component{
     render(){
         return(
             <div className="container-fluid h-100">
-                <div className="row p-4 h-20 bg-dark">
-                    <h1 className="display-1 text-white">Admin Login</h1>
+                <div className="row p-4 h-25 bg-dark border-bottom border-primary">
+                    <h1 className="display-1 text-white">RAFMS</h1>
                 </div>
-                <div className="row h-80">
+                <div className="row p-2 pl-4 bg-dark">
+                    <h1 className="text-white font-weight-light">Admin Login</h1>
+                </div>
+                <div className="row">
                     <div className="p-5 h-100 col-10 col-md-6 offset-3">
                         <div className="text-left mt-5">
                             <Card className="p-3 bg-light">

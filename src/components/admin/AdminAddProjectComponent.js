@@ -8,7 +8,6 @@ class AdminAddProject extends Component{
         this.state = {
             pname : '',
             pstart : '',
-            pdeadline : '',
             pdesc : '',
             ppriority : ''
         };
@@ -34,14 +33,16 @@ class AdminAddProject extends Component{
                 <div className="container-fluid">
                     <div className="row border-bottom border-secondary bg-light">
                         <div className="mx-5 px-5">
-                            <h1 className="font-weight-normal">Create New Project</h1>
+                            {/*<h1 className="font-weight-normal">Create New Project</h1>*/}
+                            <h1 className="font-weight-normal">Add New Client</h1>
                         </div>
                     </div>
                     <div className="row text-left">
                         <Card className="p-3 mt-5 col-10 col-md-6 offset-3 bg-light">
                             <Form onSubmit={this.handleCreation}>
                                 <FormGroup row>
-                                    <Label htmlFor="pname" md={3}>Project Title</Label>
+                                    {/*<Label htmlFor="pname" md={3}>Project Title</Label>*/}
+                                    <Label htmlFor="pname" md={3}>Client Name</Label>
                                     <Col md={9}>
                                         <Input type="text" id="pname" name="pname" placeholder="Enter project name"
                                         value={this.state.pname} valid={this.state.pname !== ''} onChange={this.handleInputChange}/>
@@ -55,14 +56,8 @@ class AdminAddProject extends Component{
                                     </Col>
                                 </FormGroup>
                                 <FormGroup row>
-                                    <Label htmlFor="pdeadline" md={3}>Deadline</Label>
-                                    <Col md={9}>
-                                        <Input type="text" id="pdeadline" name="pdeadline" placeholder="Enter project deadline"
-                                        value={this.state.pdeadline} valid={this.state.pdeadline !== ''} onChange={this.handleInputChange}/>
-                                    </Col>
-                                </FormGroup>
-                                <FormGroup row>
-                                    <Label htmlFor="pdesc" md={3}>Project Description</Label>
+                                    {/*<Label htmlFor="pdesc" md={3}>Project Description</Label>*/}
+                                    <Label htmlFor="pdesc" md={3}>Nature of Alliance</Label>
                                     <Col md={9}>
                                         <Input type="textarea" id="pdesc" name="pdesc" placeholder="Enter project description"
                                         value={this.state.pdesc} valid={this.state.pdesc !== ''} onChange={this.handleInputChange}/>

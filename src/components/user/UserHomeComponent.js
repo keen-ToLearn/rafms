@@ -13,7 +13,6 @@ const RenderProject = ({project}) => {
                 </CardHeader>
                 <CardBody className="p-4">
                     <CardText>Start Date: {project.pstart}</CardText>
-                    <CardText>Deadline: {project.pdeadline}</CardText>
                 </CardBody>
             </Card>
         </Link>
@@ -34,7 +33,8 @@ class UserHome extends Component{
                 <div className="container-fluid">
                     <div className="row border-bottom border-secondary bg-light">
                         <div className="mx-5 px-5">
-                            <h1 className="font-weight-light">Select A Project To Start Working...</h1>
+                            {/*<h1 className="font-weight-light">Select A Project To Start Working...</h1>*/}
+                            <h1 className="font-weight-light">Select A Client To Start Working...</h1>
                         </div>
                     </div>
                     <div className="row justify-content-center p-5">

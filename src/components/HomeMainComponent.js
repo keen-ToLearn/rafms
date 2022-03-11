@@ -5,23 +5,50 @@ import AdminMain from './admin/AdminMainComponent';
 import UserLogin from './user/UserLoginComponent';
 import UserMain from './user/UserMainComponent';
 import { LOGIN } from '../shared/login';
+import { PROJECTS } from '../shared/projects';
+import { USERS } from '../shared/users';
+import { BILLS } from '../shared/finances/bills';
+import { LOANS } from '../shared/finances/loans';
+import { FUNDS } from '../shared/finances/funds';
 import { Switch, Route, Redirect } from 'react-router-dom';
 
 class HomeMain extends Component{
     constructor(props){
         super(props);
         this.state = {
-            login : LOGIN
-        }
+            login : LOGIN,
+            projects : PROJECTS,
+            users : USERS,
+            bills : BILLS,
+            loans : LOANS,
+            funds : FUNDS,
+            user : ''
+        };
     }
+
+    setUser(user){
+        this.setState({ user : user });
+    }
+
     render(){
+        const RenderAdminMain = () => {
+            return(
+                <AdminMain projects={this.state.projects} users={this.state.users}
+                bills={this.state.bills} loans={this.state.loans} funds={this.state.funds}/>
+            );
+        }
+        const RenderUserMain = () => {
+            return(
+                <UserMain projects={this.state.projects} user={this.state.users.filter((user) => user.uuname === this.state.user)[0]} />
+            );
+        }
         return(
             <Switch>
                 <Route path="/home" component={Home}/>
                 <Route path="/adminlogin" component={() => <AdminLogin login={this.state.login[0]}/>}/>
-                <Route path="/adminmain" component={AdminMain}/>
-                <Route path="/userlogin" component={() => <UserLogin login={this.state.login[1]}/>}/>
-                <Route path="/usermain" component={UserMain}/>
+                <Route path="/adminmain" component={RenderAdminMain}/>
+                <Route path="/userlogin" component={() => <UserLogin login={this.state.login} setUser={(user) => this.setUser(user)} />}/>
+                <Route path="/usermain" component={RenderUserMain}/>
                 <Redirect to="/home"/>
             </Switch>
         );

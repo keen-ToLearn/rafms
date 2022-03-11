@@ -1,18 +1,31 @@
 import React, { Component } from 'react';
 import UserHome from './UserHomeComponent';
+import UserTodo from './UserTodoComponent';
 import ProjectDashboard from '../project/ProjectDashboardComponent';
-import { USERS } from '../../shared/users';
-import { PROJECTS } from '../../shared/projects';
-import { Switch, Route, Link } from 'react-router-dom';
+import { Switch, Route, Link, withRouter } from 'react-router-dom';
 import { Button, ButtonDropdown, DropdownItem, DropdownMenu, DropdownToggle,
     Nav, Navbar, NavbarBrand, NavItem } from 'reactstrap';
 
-const HeaderUser = ({isBtnOpen, toggleState}) => {
+const HeaderUser = ({isBtnOpen, toggleState, location, history}) => {
     function toggleBtn(){
         isBtnOpen = !isBtnOpen
     }
+    function triggerLogout(){
+        const path = location.pathname;
+        if(path.indexOf('view') >= 0 || path.indexOf('edit') >= 0){
+            if((history.length-3) !== (path.split('/').length-2))
+                if(path.indexOf('view') >= 0)
+                    history.go(-(path.split('/').length-2));
+                else
+                    history.go(-(history.length-3));
+            else
+                history.go(-(path.split('/').length-2));
+        }
+        else
+            history.go(-(path.split('/').length-1));
+    }
     return(
-        <div className="row h-30 bg-dark">
+        <div className="row h-25 bg-dark">
             <Navbar className="container-fluid mx-5 px-5" expand="md">
                     <NavbarBrand className="mr-auto">
                         <h1 className="display-2 text-white">RAFMS</h1>
@@ -31,12 +44,7 @@ const HeaderUser = ({isBtnOpen, toggleState}) => {
                                     User
                                 </DropdownToggle>
                                 <DropdownMenu>
-                                    <Link to="/usermain/view_profile">
-                                        <DropdownItem>Profile</DropdownItem>
-                                    </Link>
-                                    <Link to="/userlogin">
-                                        <DropdownItem>Logout</DropdownItem>
-                                    </Link>
+                                    <DropdownItem onClick={() => triggerLogout()}>Logout</DropdownItem>
                                 </DropdownMenu>
                             </ButtonDropdown>
                         </NavItem>
@@ -51,9 +59,8 @@ class UserMain extends Component{
         super(props);
         this.state = {
             isBtnOpen : false,
-            users : USERS,
-            projects : PROJECTS,
-            openProjects : []
+            openProjects : [],
+            openFeatures : []
         };
         this.toggleState = this.toggleState.bind(this);
     }
@@ -62,42 +69,49 @@ class UserMain extends Component{
         this.setState({ isBtnOpen : iBO });
     }
 
+    preventBackNavigation(event){
+        if((window.location.pathname === '/usermain') && (event.code === 'ArrowLeft' && event.altKey))
+            event.preventDefault();
+    }
+
     componentDidMount(){
-        let ulen = this.state.users.length;
-        let index;
-        for(let i = 0; i < ulen; i++){
-            if (this.state.users[i].uuname === 'user') {
-                index = i;
-                break;
-            }
-        }
-        let uuoplen = this.state.users[index].uopenproject.length;
-        let plen = this.state.projects.length;
+        document.addEventListener('keydown', event => this.preventBackNavigation(event));
+
+        let uuoplen = this.props.user.uopenproject.length;
+        let plen = this.props.projects.length;
+        const featureList = [101,102,104,105];
         const openprojects = [];
+        const openfeatures = [];
         for(let i = 0; i < uuoplen; i++){
-            for(let j = 0; j < plen; j++){
-                if (this.state.users[index].uopenproject[i] === this.state.projects[j].pid) {
-                    openprojects.push(this.state.projects[j])
-                    break;
-                }
+            if ( featureList.includes(this.props.user.uopenproject[i]) ) {
+                openfeatures.push(this.props.user.uopenproject[i]);
             }
+            else
+                for(let j = 0; j < plen; j++)
+                    if (this.props.user.uopenproject[i] === this.props.projects[j].pid) {
+                        openprojects.push(this.props.projects[j]);
+                        break;
+                    }
         }
-        this.setState({ openProjects : openprojects });
+        this.setState({
+            openProjects : openprojects,
+            openFeatures : openfeatures
+        });
     }
 
     render(){
         const LoadSelectedProject = ({match}) => {
             return(
-                <ProjectDashboard selectedProject={this.state.projects.filter((project) => project.pid === parseInt(match.params.pid,10))[0]}/>
+                <ProjectDashboard selectedProject={this.props.projects.filter((project) => project.pid === parseInt(match.params.pid,10))[0]}/>
             );
         }
         return(
             <div className="container-fluid h-100">
-                <HeaderUser isBtnOpen={this.state.isBtnOpen} toggleState={(iBO) => this.toggleState(iBO)}/>
+                <HeaderUser isBtnOpen={this.state.isBtnOpen} toggleState={(iBO) => this.toggleState(iBO)}
+                location={this.props.location} history={this.props.history}/>
                 <Switch>
                     <Route exact path="/usermain" component={() => <UserHome openProjects={this.state.openProjects}/>}/>
-                    {/*<Route path="/usermain/todo" component={UserTodo}/>
-                    <Route path="/usermain/view_profile" component={UserProfile}/>*/}
+                    <Route path="/usermain/todo" component={UserTodo}/>
                     <Route path="/usermain/:pid" component={LoadSelectedProject}/>
                 </Switch>
             </div>
@@ -105,4 +119,4 @@ class UserMain extends Component{
     }
 }
 
-export default UserMain;
+export default withRouter(UserMain);

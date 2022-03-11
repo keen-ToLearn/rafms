@@ -21,7 +21,8 @@ const RenderInfoTable = ({selectedProject}) => {
         <Table borderless>
             <tbody>
                 <tr>
-                    <th scope="row">Project Name</th>
+                    {/*<th scope="row">Project Name</th>*/}
+                    <th scope="row">Client Name</th>
                     <td>{selectedProject.pname}</td>
                 </tr>
                 <tr>
@@ -29,11 +30,7 @@ const RenderInfoTable = ({selectedProject}) => {
                     <td>{selectedProject.pstart}</td>
                 </tr>
                 <tr>
-                    <th scope="row">Deadline</th>
-                    <td>{selectedProject.pdeadline}</td>
-                </tr>
-                <tr>
-                    <th scope="row">Description</th>
+                    <th scope="row">Nature of Alliance</th>
                     <td>{selectedProject.pdesc}</td>
                 </tr>
                 <tr>
@@ -50,7 +47,8 @@ const ProjectInfo = ({selectedProject}) => {
         <div className="col-11 p-0">
             <div className="container-fluid h-100 p-5">
                 <div className="row col-10 mx-5 px-0 border-bottom border-primary">
-                    <h1>About the Project</h1>
+                    {/*<h1>About the Project</h1>*/}
+                    <h1>About Client</h1>
                 </div>
                 <div className="row col-10 mx-5 mt-5 px-0 text-left">
                     <RenderInfoTable selectedProject={selectedProject}/>
