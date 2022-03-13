@@ -27,7 +27,7 @@ class FTBillViewBill extends Component{
                 <div className="container-fluid h-100 p-5">
                     <div className="row col-10 mx-5 px-0 border-bottom border-primary">
                         <h1 className="mr-auto">{this.props.billToView.billTo}</h1>
-                        <Link to={`/usermain/${this.props.forPid}/finance_transaction/edit_bill/${this.props.billToView.sNo}`}>
+                        <Link to={`/usermain/finance_transaction/edit_bill/${this.props.billToView.sNo}`}>
                             <Button type="button" color="primary" className="float-right mr-3 my-2">Edit</Button>
                         </Link>
                     </div>
@@ -41,8 +41,10 @@ class FTBillViewBill extends Component{
                                     <td>{this.props.billToView.billDate}</td>
                                 </tr>
                                 <tr>
+                                    <th scope="row">Client</th>
+                                    <td>{this.props.billToView.billClient}</td>
                                     <th scope="row">Total</th>
-                                    <td colSpan="3">{this.props.billToView.billTotal}</td>
+                                    <td>{this.props.billToView.billTotal}</td>
                                 </tr>
                                 <tr>
                                     <th scope="row" colSpan="4">Details</th>

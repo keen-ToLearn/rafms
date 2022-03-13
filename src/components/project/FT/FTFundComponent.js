@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Button, Col, Input, InputGroup, InputGroupAddon, InputGroupText, Row, Table } from 'reactstrap';
 import { Link } from "react-router-dom";
 
-const RenderTableBody = ({fundDetails, renderRowList, forPid}) => {
+const RenderTableBody = ({fundDetails, renderRowList}) => {
     if( fundDetails === '')
         return(
             <></>
@@ -12,14 +12,14 @@ const RenderTableBody = ({fundDetails, renderRowList, forPid}) => {
             return(
                 <tr key={fundDetail.sNo}>
                     <td>
-                        <Link className="text-dark" to={`/usermain/${forPid}/finance_transaction/view_fund/${fundDetail.sNo}`}><span className="fa fa-sticky-note"></span></Link>
+                        <Link className="text-dark" to={`/usermain/finance_transaction/view_fund/${fundDetail.sNo}`}><span className="fa fa-sticky-note"></span></Link>
                         {' '}
-                        <Link className="text-dark" to={`/usermain/${forPid}/finance_transaction/edit_fund/${fundDetail.sNo}`}><span className="fa fa-pencil-square"></span></Link>
+                        <Link className="text-dark" to={`/usermain/finance_transaction/edit_fund/${fundDetail.sNo}`}><span className="fa fa-pencil-square"></span></Link>
                     </td>
-                    <td><Link className="text-dark d-block" style={{textDecoration : 'none'}} to={`/usermain/${forPid}/finance_transaction/view_fund/${fundDetail.sNo}`}>{fundDetail.sNo}</Link></td>
-                    <td><Link className="text-dark d-block" style={{textDecoration : 'none'}} to={`/usermain/${forPid}/finance_transaction/view_fund/${fundDetail.sNo}`}>{fundDetail.fundFrom}</Link></td>
-                    <td><Link className="text-dark d-block" style={{textDecoration : 'none'}} to={`/usermain/${forPid}/finance_transaction/view_fund/${fundDetail.sNo}`}>{fundDetail.fundDate}</Link></td>
-                    <td><Link className="text-dark d-block" style={{textDecoration : 'none'}} to={`/usermain/${forPid}/finance_transaction/view_fund/${fundDetail.sNo}`}>{fundDetail.fundAmt}</Link></td>
+                    <td><Link className="text-dark d-block" style={{textDecoration : 'none'}} to={`/usermain/finance_transaction/view_fund/${fundDetail.sNo}`}>{fundDetail.sNo}</Link></td>
+                    <td><Link className="text-dark d-block" style={{textDecoration : 'none'}} to={`/usermain/finance_transaction/view_fund/${fundDetail.sNo}`}>{fundDetail.fundFrom}</Link></td>
+                    <td><Link className="text-dark d-block" style={{textDecoration : 'none'}} to={`/usermain/finance_transaction/view_fund/${fundDetail.sNo}`}>{fundDetail.fundDate}</Link></td>
+                    <td><Link className="text-dark d-block" style={{textDecoration : 'none'}} to={`/usermain/finance_transaction/view_fund/${fundDetail.sNo}`}>{fundDetail.fundAmt}</Link></td>
                 </tr>
             );
         }
@@ -123,13 +123,13 @@ class FTFund extends Component{
                                     <th onClick={() => this.toggleThIcon(3)} style={{cursor : 'pointer'}}>Amount <span className={`fa fa-sort text-${this.state.thIconList[3]}`}></span></th>
                                 </tr>
                             </thead>
-                            <RenderTableBody fundDetails={this.state.fundList} renderRowList={this.state.renderRowList} forPid={this.props.forPid}/>
+                            <RenderTableBody fundDetails={this.state.fundList} renderRowList={this.state.renderRowList}/>
                         </Table>
                     </Col>
                     <Col md={3}>
                         <div className="container-fluid">
                             <div className="row-fluid">
-                                <Link style={{textDecoration : 'none'}} to={`/usermain/${this.props.forPid}/finance_transaction/add_fund`}>
+                                <Link style={{textDecoration : 'none'}} to={`/usermain/finance_transaction/add_fund`}>
                                     <Button color="primary" block outline>Add Fund</Button>
                                 </Link>
                             </div>

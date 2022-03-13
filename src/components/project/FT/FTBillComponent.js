@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Button, Col, Input, InputGroup, InputGroupAddon, InputGroupText, Row, Table } from "reactstrap";
 import { Link } from "react-router-dom";
 
-const RenderTableBody = ({billDetails, renderRowList, forPid}) => {
+const RenderTableBody = ({billDetails, renderRowList}) => {
     if( billDetails === '')
         return(
             <></>
@@ -12,14 +12,15 @@ const RenderTableBody = ({billDetails, renderRowList, forPid}) => {
             return(
                 <tr key={billDetail.sNo}>
                     <td>
-                        <Link className="text-dark" to={`/usermain/${forPid}/finance_transaction/view_bill/${billDetail.sNo}`}><span className="fa fa-sticky-note"></span></Link>
+                        <Link className="text-dark" to={`/usermain/finance_transaction/view_bill/${billDetail.sNo}`}><span className="fa fa-sticky-note"></span></Link>
                         {' '}
-                        <Link className="text-dark" to={`/usermain/${forPid}/finance_transaction/edit_bill/${billDetail.sNo}`}><span className="fa fa-pencil-square"></span></Link>
+                        <Link className="text-dark" to={`/usermain/finance_transaction/edit_bill/${billDetail.sNo}`}><span className="fa fa-pencil-square"></span></Link>
                     </td>
-                    <td><Link className="text-dark d-block" style={{textDecoration : 'none'}} to={`/usermain/${forPid}/finance_transaction/view_bill/${billDetail.sNo}`}>{billDetail.sNo}</Link></td>
-                    <td><Link className="text-dark d-block" style={{textDecoration : 'none'}} to={`/usermain/${forPid}/finance_transaction/view_bill/${billDetail.sNo}`}>{billDetail.billTo}</Link></td>
-                    <td><Link className="text-dark d-block" style={{textDecoration : 'none'}} to={`/usermain/${forPid}/finance_transaction/view_bill/${billDetail.sNo}`}>{billDetail.billDate}</Link></td>
-                    <td><Link className="text-dark d-block" style={{textDecoration : 'none'}} to={`/usermain/${forPid}/finance_transaction/view_bill/${billDetail.sNo}`}>{billDetail.billTotal}</Link></td>
+                    <td><Link className="text-dark d-block" style={{textDecoration : 'none'}} to={`/usermain/finance_transaction/view_bill/${billDetail.sNo}`}>{billDetail.sNo}</Link></td>
+                    <td><Link className="text-dark d-block" style={{textDecoration : 'none'}} to={`/usermain/finance_transaction/view_bill/${billDetail.sNo}`}>{billDetail.billTo}</Link></td>
+                    <td><Link className="text-dark d-block" style={{textDecoration : 'none'}} to={`/usermain/finance_transaction/view_bill/${billDetail.sNo}`}>{billDetail.billDate}</Link></td>
+                    <td><Link className="text-dark d-block" style={{textDecoration : 'none'}} to={`/usermain/finance_transaction/view_bill/${billDetail.sNo}`}>{billDetail.billClient}</Link></td>
+                    <td><Link className="text-dark d-block" style={{textDecoration : 'none'}} to={`/usermain/finance_transaction/view_bill/${billDetail.sNo}`}>{billDetail.billTotal}</Link></td>
                 </tr>
             );
         }
@@ -38,7 +39,7 @@ class FTBill extends Component{
     constructor(props){
         super(props);
         this.state = {
-            thIconList : ['primary', 'dark', 'dark', 'dark'],
+            thIconList : ['primary', 'dark', 'dark', 'dark', 'dark'],
             billList : this.props.billList,
             ascdesc : 'asc',
             renderRowList : new Array(this.props.billList.length).fill(1)
@@ -51,7 +52,7 @@ class FTBill extends Component{
         for(let i=0; i<thIconListCopy.length; i++){
             thIconListCopy[i]=(index === i)?'primary':'dark';
         }
-        const mapperList = ['sNo', 'billTo', 'billDate', 'billTotal'];
+        const mapperList = ['sNo', 'billTo', 'billDate', 'billClient', 'billTotal'];
         const billListCopy = [...this.state.billList];
         billListCopy.sort((x,y) => {
             if(x[mapperList[index]] < y[mapperList[index]])
@@ -72,7 +73,7 @@ class FTBill extends Component{
         for(let i=0; i<thIconListCopy.length; i++){
             thIconListCopy[i]=(index === i)?'primary':'dark';
         }
-        const mapperList = ['sNo', 'billTo', 'billDate', 'billTotal'];
+        const mapperList = ['sNo', 'billTo', 'billDate', 'billClient', 'billTotal'];
         const billListCopy = [...this.state.billList];
         billListCopy.sort((x,y) => {
             if(x[mapperList[index]] < y[mapperList[index]])
@@ -89,7 +90,7 @@ class FTBill extends Component{
 
     filterTrData(){
         const allBillsCopy = [...this.state.billList];
-        const keyList = ['sNo', 'billTo', 'billDate', 'billTotal'];
+        const keyList = ['sNo', 'billTo', 'billDate', 'billClient', 'billTotal'];
         const renderRowListCopy = [...this.state.renderRowList];
         for(let i=0; i<allBillsCopy.length; i++){
             let tmpBill = allBillsCopy[i];
@@ -120,16 +121,17 @@ class FTBill extends Component{
                                     <th onClick={() => this.toggleThIcon(0)} style={{cursor : 'pointer'}}>SNo. <span className={`fa fa-sort text-${this.state.thIconList[0]}`}></span></th>
                                     <th onClick={() => this.toggleThIcon(1)} style={{cursor : 'pointer'}}>Biller <span className={`fa fa-sort text-${this.state.thIconList[1]}`}></span></th>
                                     <th onClick={() => this.toggleThIcon(2)} style={{cursor : 'pointer'}}>Date <span className={`fa fa-sort text-${this.state.thIconList[2]}`}></span></th>
-                                    <th onClick={() => this.toggleThIcon(3)} style={{cursor : 'pointer'}}>Amount <span className={`fa fa-sort text-${this.state.thIconList[3]}`}></span></th>
+                                    <th onClick={() => this.toggleThIcon(3)} style={{cursor : 'pointer'}}>Client <span className={`fa fa-sort text-${this.state.thIconList[3]}`}></span></th>
+                                    <th onClick={() => this.toggleThIcon(4)} style={{cursor : 'pointer'}}>Amount <span className={`fa fa-sort text-${this.state.thIconList[4]}`}></span></th>
                                 </tr>
                             </thead>
-                            <RenderTableBody billDetails={this.state.billList} renderRowList={this.state.renderRowList} forPid={this.props.forPid}/>
+                            <RenderTableBody billDetails={this.state.billList} renderRowList={this.state.renderRowList}/>
                         </Table>
                     </Col>
                     <Col md={3}>
                         <div className="container-fluid">
                             <div className="row-fluid">
-                                <Link style={{textDecoration : 'none'}} to={`/usermain/${this.props.forPid}/finance_transaction/add_bill`}>
+                                <Link style={{textDecoration : 'none'}} to={`/usermain/finance_transaction/add_bill`}>
                                     <Button color="primary" block outline>Add Bill</Button>
                                 </Link>
                             </div>

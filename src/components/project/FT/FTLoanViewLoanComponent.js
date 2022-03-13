@@ -9,7 +9,7 @@ class FTLoanViewLoan extends Component{
                 <div className="container-fluid h-100 p-5">
                     <div className="row col-10 mx-5 px-0 border-bottom border-primary">
                         <h1 className="mr-auto">{this.props.loanToView.loanSrc}</h1>
-                        <Link to={`/usermain/${this.props.forPid}/finance_transaction/edit_loan/${this.props.loanToView.sNo}`}>
+                        <Link to={`/usermain/finance_transaction/edit_loan/${this.props.loanToView.sNo}`}>
                             <Button type="button" color="primary" className="float-right mr-3 my-2">Edit</Button>
                         </Link>
                     </div>

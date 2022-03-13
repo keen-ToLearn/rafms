@@ -37,7 +37,6 @@ class AdminHome extends Component{
         const renderRowListCopy = [...this.state.renderRowList];
         for(let i=0; i<projectsCopy.length; i++){
             let pnametmp = projectsCopy[i].pname.toLowerCase();
-            console.log(pnametmp+'\n');
             if(pnametmp.indexOf(this.searchclients.value) !== -1)
                 renderRowListCopy[i] = 1;
             else

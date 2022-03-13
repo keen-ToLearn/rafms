@@ -21,13 +21,12 @@ class HomeMain extends Component{
             users : USERS,
             bills : BILLS,
             loans : LOANS,
-            funds : FUNDS,
-            user : ''
+            funds : FUNDS
         };
     }
 
     setUser(user){
-        this.setState({ user : user });
+        window.localStorage.setItem('user', JSON.stringify(user));
     }
 
     render(){
@@ -39,7 +38,9 @@ class HomeMain extends Component{
         }
         const RenderUserMain = () => {
             return(
-                <UserMain projects={this.state.projects} user={this.state.users.filter((user) => user.uuname === this.state.user)[0]} />
+                <UserMain projects={this.state.projects}
+                user={this.state.users.filter((user) => user.uuname === JSON.parse(window.localStorage.getItem('user')))[0]}
+                bills={this.state.bills} loans={this.state.loans} funds={this.state.funds}/>
             );
         }
         return(

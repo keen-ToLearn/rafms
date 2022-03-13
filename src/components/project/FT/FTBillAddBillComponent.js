@@ -8,6 +8,7 @@ class FTBillAddBill extends Component{
             billTo : '',
             billName : '',
             billDate : '',
+            billClient : '',
             billTotal : '',
             times : 1,
         };
@@ -72,10 +73,16 @@ class FTBillAddBill extends Component{
             );
         }
         
+        const clientoptions = this.props.projects.map((project) => {
+            return(
+                <option>{project.pname}</option>
+            );
+        });
+        
         return(
             <div className="col-11 p-0">
                 <div className="container-fluid">
-                    <div className="row border-bottom border-secondary" style={{backgroundImage : 'linear-gradient(to right, white, #f8f9fa)'}}>
+                    <div className="row border-bottom border-secondary bg-light">
                         <div className="mx-5 px-5">
                             <h1 className="font-weight-normal">Add Bill</h1>
                         </div>
@@ -106,6 +113,16 @@ class FTBillAddBill extends Component{
                                         </FormGroup>
                                     </Col>
                                 </Row>
+                                <FormGroup row>
+                                    <Label htmlFor="billClient" md={2}>Client</Label>
+                                    <Col md={4}>
+                                        <Input type="select" id="billClient" name="billClient"
+                                        value={this.state.billClient} onChange={this.handleInputChange}>
+                                            <option selected>Select Client</option>
+                                            {clientoptions}
+                                        </Input>
+                                    </Col>
+                                </FormGroup>
                                 <FormGroup row>
                                     <Label htmlFor="billTotal" md={2}>Total</Label>
                                     <Col md={10}>

@@ -29,7 +29,7 @@ class FTLoanAddLoan extends Component{
         return(
             <div className="col-11 p-0">
                 <div className="container-fluid">
-                    <div className="row border-bottom border-secondary" style={{backgroundImage : 'linear-gradient(to right, white, #f8f9fa)'}}>
+                    <div className="row border-bottom border-secondary bg-light">
                         <div className="mx-5 px-5">
                             <h1 className="font-weight-normal">Add Fund</h1>
                         </div>

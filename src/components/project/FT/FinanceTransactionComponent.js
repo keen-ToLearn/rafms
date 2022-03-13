@@ -16,7 +16,7 @@ class FinanceTransaction extends Component{
     }
     render(){
         return(
-            <div className="col-11 p-0">
+            <div className="col-11 pt-3">
                 <Nav className="mx-4 mt-1 nav nav-tabs">
                     <NavItem className="px-4 nav-item"></NavItem>
                     <NavItem className="pl-1 nav-item">
@@ -49,13 +49,13 @@ class FinanceTransaction extends Component{
                         </Row>
                     </TabPane>
                     <TabPane tabId='2'>
-                        <FTBill forPid={this.props.forPid} billList={this.props.billList}/>
+                        <FTBill billList={this.props.billList}/>
                     </TabPane>
                     <TabPane tabId='3'>
-                        <FTLoan forPid={this.props.forPid} loanList={this.props.loanList}/>
+                        <FTLoan loanList={this.props.loanList}/>
                     </TabPane>
                     <TabPane tabId='4'>
-                        <FTFund forPid={this.props.forPid} fundList={this.props.fundList}/>
+                        <FTFund fundList={this.props.fundList}/>
                     </TabPane>
                 </TabContent>
             </div>

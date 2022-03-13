@@ -8,6 +8,7 @@ class FTBillEditBill extends Component{
             billTo : this.props.billToEdit.billTo,
             billName : this.props.billToEdit.billName,
             billDate : this.props.billToEdit.billDate,
+            billClient : this.props.billToEdit.billClient,
             billTotal : this.props.billToEdit.billTotal,
             billRecords : this.props.billToEdit.billRecords
         };
@@ -70,10 +71,16 @@ class FTBillEditBill extends Component{
             );
         }
 
+        const clientoptions = this.props.projects.map((project) => {
+            return(
+                <option>{project.pname}</option>
+            );
+        });
+
         return(
             <div className="col-11 p-0">
                 <div className="container-fluid">
-                    <div className="row border-bottom border-secondary" style={{backgroundImage : 'linear-gradient(to right, white, #f8f9fa)'}}>
+                    <div className="row border-bottom border-secondary bg-light">
                         <div className="mx-5 px-5">
                             <h1 className="font-weight-normal">Edit Bill</h1>
                         </div>
@@ -104,6 +111,16 @@ class FTBillEditBill extends Component{
                                         </FormGroup>
                                     </Col>
                                 </Row>
+                                <FormGroup row>
+                                    <Label htmlFor="billClient" md={2}>Client</Label>
+                                    <Col md={4}>
+                                        <Input type="select" id="billClient" name="billClient"
+                                        value={this.state.billClient} onChange={this.handleInputChange}>
+                                            <option selected>Select Client</option>
+                                            {clientoptions}
+                                        </Input>
+                                    </Col>
+                                </FormGroup>
                                 <FormGroup row>
                                     <Label htmlFor="billTotal" md={3}>Total</Label>
                                     <Col md={9}>

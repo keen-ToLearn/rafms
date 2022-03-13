@@ -29,7 +29,7 @@ class UserHome extends Component{
             );
         });
         return(
-            <div className="row">
+            <div className="col-11 p-0">
                 <div className="container-fluid">
                     <div className="row border-bottom border-secondary bg-light">
                         <div className="mx-5 px-5">

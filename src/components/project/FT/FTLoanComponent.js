@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Button, Col, Input, InputGroup, InputGroupAddon, InputGroupText, Row, Table } from 'reactstrap';
 import { Link } from "react-router-dom";
 
-const RenderTableBody = ({loanDetails, renderRowList, forPid}) => {
+const RenderTableBody = ({loanDetails, renderRowList}) => {
     if( loanDetails === '')
         return(
             <></>
@@ -12,16 +12,16 @@ const RenderTableBody = ({loanDetails, renderRowList, forPid}) => {
             return(
                 <tr key={loanDetail.sNo}>
                     <td>
-                        <Link className="text-dark" to={`/usermain/${forPid}/finance_transaction/view_loan/${loanDetail.sNo}`}><span className="fa fa-sticky-note"></span></Link>
+                        <Link className="text-dark" to={`/usermain/finance_transaction/view_loan/${loanDetail.sNo}`}><span className="fa fa-sticky-note"></span></Link>
                         {' '}
-                        <Link className="text-dark" to={`/usermain/${forPid}/finance_transaction/edit_loan/${loanDetail.sNo}`}><span className="fa fa-pencil-square"></span></Link>
+                        <Link className="text-dark" to={`/usermain/finance_transaction/edit_loan/${loanDetail.sNo}`}><span className="fa fa-pencil-square"></span></Link>
                     </td>
-                    <td><Link className="text-dark d-block" style={{textDecoration : 'none'}} to={`/usermain/${forPid}/finance_transaction/view_loan/${loanDetail.sNo}`}>{loanDetail.sNo}</Link></td>
-                    <td><Link className="text-dark d-block" style={{textDecoration : 'none'}} to={`/usermain/${forPid}/finance_transaction/view_loan/${loanDetail.sNo}`}>{loanDetail.loanSrc}</Link></td>
-                    <td><Link className="text-dark d-block" style={{textDecoration : 'none'}} to={`/usermain/${forPid}/finance_transaction/view_loan/${loanDetail.sNo}`}>{loanDetail.loanDate}</Link></td>
-                    <td><Link className="text-dark d-block" style={{textDecoration : 'none'}} to={`/usermain/${forPid}/finance_transaction/view_loan/${loanDetail.sNo}`}>{loanDetail.loanAmt}</Link></td>
-                    <td><Link className="text-dark d-block" style={{textDecoration : 'none'}} to={`/usermain/${forPid}/finance_transaction/view_loan/${loanDetail.sNo}`}>{loanDetail.loanPeriod}</Link></td>
-                    <td><Link className="text-dark d-block" style={{textDecoration : 'none'}} to={`/usermain/${forPid}/finance_transaction/view_loan/${loanDetail.sNo}`}>{loanDetail.loanRate}</Link></td>
+                    <td><Link className="text-dark d-block" style={{textDecoration : 'none'}} to={`/usermain/finance_transaction/view_loan/${loanDetail.sNo}`}>{loanDetail.sNo}</Link></td>
+                    <td><Link className="text-dark d-block" style={{textDecoration : 'none'}} to={`/usermain/finance_transaction/view_loan/${loanDetail.sNo}`}>{loanDetail.loanSrc}</Link></td>
+                    <td><Link className="text-dark d-block" style={{textDecoration : 'none'}} to={`/usermain/finance_transaction/view_loan/${loanDetail.sNo}`}>{loanDetail.loanDate}</Link></td>
+                    <td><Link className="text-dark d-block" style={{textDecoration : 'none'}} to={`/usermain/finance_transaction/view_loan/${loanDetail.sNo}`}>{loanDetail.loanAmt}</Link></td>
+                    <td><Link className="text-dark d-block" style={{textDecoration : 'none'}} to={`/usermain/finance_transaction/view_loan/${loanDetail.sNo}`}>{loanDetail.loanPeriod}</Link></td>
+                    <td><Link className="text-dark d-block" style={{textDecoration : 'none'}} to={`/usermain/finance_transaction/view_loan/${loanDetail.sNo}`}>{loanDetail.loanRate}</Link></td>
                 </tr>
             );
         }
@@ -127,13 +127,13 @@ class FTLoan extends Component{
                                     <th onClick={() => this.toggleThIcon(5)} style={{cursor : 'pointer'}}>Rate <span className={`fa fa-sort text-${this.state.thIconList[5]}`}></span></th>
                                 </tr>
                             </thead>
-                            <RenderTableBody loanDetails={this.state.loanList} renderRowList={this.state.renderRowList} forPid={this.props.forPid}/>
+                            <RenderTableBody loanDetails={this.state.loanList} renderRowList={this.state.renderRowList}/>
                         </Table>
                     </Col>
                     <Col md={3}>
                         <div className="container-fluid">
                             <div className="row-fluid">
-                                <Link style={{textDecoration : 'none'}} to={`/usermain/${this.props.forPid}/finance_transaction/add_loan`}>
+                                <Link style={{textDecoration : 'none'}} to={`/usermain/finance_transaction/add_loan`}>
                                     <Button color="primary" block outline>Add Loan</Button>
                                 </Link>
                             </div>

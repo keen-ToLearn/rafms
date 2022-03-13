@@ -19,22 +19,16 @@ class AdminMyOrganisation extends Component{
         let btotal = 0;
         let ltotal = 0;
         let ftotal = 0;
-        this.props.bills.map((billcompany) => {
-            if(billcompany.allBills.length !== 0){
-                billcompany.allBills.map((bill) => { btotal = btotal + bill.billTotal; return true; });
-            }
+        this.props.bills.map((bill) => {
+            btotal = btotal + bill.billTotal;
             return true;
         });
-        this.props.loans.map((loancompany) => {
-            if(loancompany.allLoans.length !== 0){
-                loancompany.allLoans.map((loan) => { ltotal = ltotal + loan.loanAmt; return true; });
-            }
+        this.props.loans.map((loan) => {
+            ltotal = ltotal + loan.loanAmt;
             return true;
         });
-        this.props.funds.map((fundcompany) => {
-            if(fundcompany.allFunds.length !== 0){
-                fundcompany.allFunds.map((fund) => { ftotal = ftotal + fund.fundAmt; return true; });
-            }
+        this.props.funds.map((fund) => {
+            ftotal = ftotal + fund.fundAmt;
             return true;
         });
         this.setState({
@@ -64,54 +58,40 @@ class AdminMyOrganisation extends Component{
             );
         });
 
-        const billsinfo = this.props.bills.map((billcompany) => {
-            if(billcompany.allBills.length !== 0){
-                var billinfoTmp = billcompany.allBills.map((bill) => {
-                    return(
-                        <tr>
-                            <td>{bill.sNo}</td>
-                            <td>{bill.billTo}</td>
-                            <td>{bill.billDate}</td>
-                            <td>{bill.billTotal}</td>
-                        </tr>
-                    );
-                });
-            }
-            return billinfoTmp;
+        const billsinfo = this.props.bills.map((bill) => {
+            return(
+                <tr>
+                    <td>{bill.sNo}</td>
+                    <td>{bill.billTo}</td>
+                    <td>{bill.billDate}</td>
+                    <td>{bill.billClient}</td>
+                    <td>{bill.billTotal}</td>
+                </tr>
+            );
         });
 
-        const loansinfo = this.props.loans.map((loancompany) => {
-            if(loancompany.allLoans.length !== 0){
-                var loaninfoTmp = loancompany.allLoans.map((loan) => {
-                    return(
-                        <tr>
-                            <td>{loan.sNo}</td>
-                            <td>{loan.loanSrc}</td>
-                            <td>{loan.loanDate}</td>
-                            <td>{loan.loanAmt}</td>
-                            <td>{loan.loanPeriod}</td>
-                            <td>{loan.loanRate}</td>
-                        </tr>
-                    );
-                });
-            }
-            return loaninfoTmp;
+        const loansinfo = this.props.loans.map((loan) => {
+            return(
+                <tr>
+                    <td>{loan.sNo}</td>
+                    <td>{loan.loanSrc}</td>
+                    <td>{loan.loanDate}</td>
+                    <td>{loan.loanAmt}</td>
+                    <td>{loan.loanPeriod}</td>
+                    <td>{loan.loanRate}</td>
+                </tr>
+            );
         });
 
-        const fundsinfo = this.props.funds.map((fundcompany) => {
-            if(fundcompany.allFunds.length !== 0){
-                var fundinfoTmp = fundcompany.allFunds.map((fund) => {
-                    return(
-                        <tr>
-                            <td>{fund.sNo}</td>
-                            <td>{fund.fundFrom}</td>
-                            <td>{fund.fundDate}</td>
-                            <td>{fund.fundAmt}</td>
-                        </tr>
-                    );
-                });
-            }
-            return fundinfoTmp;
+        const fundsinfo = this.props.funds.map((fund) => {
+            return(
+                <tr>
+                    <td>{fund.sNo}</td>
+                    <td>{fund.fundFrom}</td>
+                    <td>{fund.fundDate}</td>
+                    <td>{fund.fundAmt}</td>
+                </tr>
+            );
         });
 
         return(
@@ -250,6 +230,7 @@ class AdminMyOrganisation extends Component{
                                                     <th>Sno.</th>
                                                     <th>Biller</th>
                                                     <th>Date</th>
+                                                    <th>Client</th>
                                                     <th>Amount</th>
                                                 </tr>
                                             </thead>
