@@ -11,20 +11,24 @@ class ProjectNavPane extends Component{
     }
     handleClick(feature){
         if(['finance_transaction', 'human_resources', 'inventory'].includes(feature)){
-            if(this.props.location.pathname === '/usermain')
-                this.props.history.push(`/usermain/${feature}`);
-            else
+            if(['/usermain/finance_transaction', '/usermain/sales_management', '/usermain/crm', '/usermain/inventory', '/usermain/human_resources'].includes(this.props.location.pathname))
                 this.props.history.replace(`/usermain/${feature}`);
+            else
+                this.props.history.push(`/usermain/${feature}`);
         }
         else{
-            if(this.props.location.pathname === '/usermain')
-                this.props.history.push(`/usermain/${feature}`);
-            else if(['/usermain/finance_transaction', '/usermain/sales_management', '/usermain/crm', '/usermain/inventory', '/usermain/human_resources'].includes(this.props.location.pathname))
-                this.props.history.replace(`/usermain/${feature}`);
-            else if(this.props.location.pathname === `/usermain/${this.state.pid}`)
-                this.props.history.push(`/usermain/${this.state.pid}/${feature}`);
-            else
-                this.props.history.replace(`/usermain/${this.state.pid}/${feature}`);
+            if( isNaN(Number(this.props.location.pathname.split('/')[2])) ){
+                if(['/usermain/finance_transaction', '/usermain/sales_management', '/usermain/crm', '/usermain/inventory', '/usermain/human_resources'].includes(this.props.location.pathname))
+                    this.props.history.replace(`/usermain/${feature}`);
+                else
+                    this.props.history.push(`/usermain/${feature}`);
+            }
+            else{
+                if(this.props.location.pathname.split('/').length === 4)
+                    this.props.history.replace(`/usermain/${this.state.pid}/${feature}`);
+                else
+                    this.props.history.push(`/usermain/${this.state.pid}/${feature}`);
+            }
         }
     }
     render(){

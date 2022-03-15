@@ -15,13 +15,8 @@ const HeaderAdmin = ({isBtnOpen, toggleState, location, history}) => {
         isBtnOpen = !isBtnOpen
     }
     function triggerLogout(){
-        const path = location.pathname;
-        if(path.indexOf('view_project') >= 0 || path.indexOf('edit_project') >= 0)
-            history.go(-(path.split('/').length-2));
-        else if(path === '/adminmain/my_org')
-            history.go(-(history.length-3));
-        else
-            history.go(-(path.split('/').length-1));
+        history.push('/home');
+        history.push('/adminlogin');
     }
     return(
         <div className="row h-25 bg-dark">
@@ -66,7 +61,7 @@ class AdminMain extends Component{
     }
 
     preventBackNavigation(event){
-        if((window.location.pathname === '/adminmain') && (event.code === 'ArrowLeft' && event.altKey))
+        if((window.location.pathname === '/adminmain' || window.location.pathname === '/home') && (event.code === 'ArrowLeft' && event.altKey))
             event.preventDefault();
     }
 

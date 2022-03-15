@@ -18,6 +18,8 @@ class AdminManageAccess extends Component{
                     accessFeatures.push('Finance and Transaction');
                 else if(uopeprojectCopy[i] === 102)
                     accessFeatures.push('Sales Management');
+                else if(uopeprojectCopy[i] === 103)
+                    accessFeatures.push('Customer Relations Management');
                 else if(uopeprojectCopy[i] === 104)
                     accessFeatures.push('Inventory Management');
                 else if(uopeprojectCopy[i] === 105)

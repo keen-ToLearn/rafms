@@ -8,6 +8,6 @@ export const USERS =
         {
             uid : 'u1',
             uuname : 'user1',
-            uopenproject : [0,1,2,101,102,104,105]
+            uopenproject : [0,1,2,101,102,103,104,105]
         }
     ]

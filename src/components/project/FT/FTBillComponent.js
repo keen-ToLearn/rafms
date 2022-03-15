@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Button, Col, Input, InputGroup, InputGroupAddon, InputGroupText, Row, Table } from "reactstrap";
 import { Link } from "react-router-dom";
+import ReactToPrint, { PrintContextConsumer } from 'react-to-print';
 
 const RenderTableBody = ({billDetails, renderRowList}) => {
     if( billDetails === '')
@@ -114,19 +115,21 @@ class FTBill extends Component{
             <>
                 <Row className="m-0">
                     <Col md={9}>
-                        <Table hover>
-                            <thead>
-                                <tr>
-                                    <th>Action</th>
-                                    <th onClick={() => this.toggleThIcon(0)} style={{cursor : 'pointer'}}>SNo. <span className={`fa fa-sort text-${this.state.thIconList[0]}`}></span></th>
-                                    <th onClick={() => this.toggleThIcon(1)} style={{cursor : 'pointer'}}>Biller <span className={`fa fa-sort text-${this.state.thIconList[1]}`}></span></th>
-                                    <th onClick={() => this.toggleThIcon(2)} style={{cursor : 'pointer'}}>Date <span className={`fa fa-sort text-${this.state.thIconList[2]}`}></span></th>
-                                    <th onClick={() => this.toggleThIcon(3)} style={{cursor : 'pointer'}}>Client <span className={`fa fa-sort text-${this.state.thIconList[3]}`}></span></th>
-                                    <th onClick={() => this.toggleThIcon(4)} style={{cursor : 'pointer'}}>Amount <span className={`fa fa-sort text-${this.state.thIconList[4]}`}></span></th>
-                                </tr>
-                            </thead>
-                            <RenderTableBody billDetails={this.state.billList} renderRowList={this.state.renderRowList}/>
-                        </Table>
+                        <div ref={(ref) => { this.billOverview = ref }}>
+                            <Table hover>
+                                <thead>
+                                    <tr>
+                                        <th>Action</th>
+                                        <th onClick={() => this.toggleThIcon(0)} style={{cursor : 'pointer'}}>SNo. <span className={`fa fa-sort text-${this.state.thIconList[0]}`}></span></th>
+                                        <th onClick={() => this.toggleThIcon(1)} style={{cursor : 'pointer'}}>Biller <span className={`fa fa-sort text-${this.state.thIconList[1]}`}></span></th>
+                                        <th onClick={() => this.toggleThIcon(2)} style={{cursor : 'pointer'}}>Date <span className={`fa fa-sort text-${this.state.thIconList[2]}`}></span></th>
+                                        <th onClick={() => this.toggleThIcon(3)} style={{cursor : 'pointer'}}>Client <span className={`fa fa-sort text-${this.state.thIconList[3]}`}></span></th>
+                                        <th onClick={() => this.toggleThIcon(4)} style={{cursor : 'pointer'}}>Amount <span className={`fa fa-sort text-${this.state.thIconList[4]}`}></span></th>
+                                    </tr>
+                                </thead>
+                                <RenderTableBody billDetails={this.state.billList} renderRowList={this.state.renderRowList}/>
+                            </Table>
+                        </div>
                     </Col>
                     <Col md={3}>
                         <div className="container-fluid">
@@ -134,6 +137,17 @@ class FTBill extends Component{
                                 <Link style={{textDecoration : 'none'}} to={`/usermain/finance_transaction/add_bill`}>
                                     <Button color="primary" block outline>Add Bill</Button>
                                 </Link>
+                            </div>
+                            <div className="row-fluid mt-3">
+                                <ReactToPrint content={() => this.billOverview}>
+                                    <PrintContextConsumer>
+                                        {
+                                            ({ handlePrint }) => (
+                                                <Button type="button" color="primary" onClick={handlePrint} block outline>Print Bill List</Button>
+                                            )
+                                        }
+                                    </PrintContextConsumer>
+                                </ReactToPrint>
                             </div>
                             <div className="row-fluid mt-3">
                                 <InputGroup>

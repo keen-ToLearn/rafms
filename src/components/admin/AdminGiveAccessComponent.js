@@ -42,7 +42,7 @@ class AdminGiveAccess extends Component{
             return(
                 <Label check size="lg" className="d-block">
                     <Input type="checkbox" name={`chk${project.pid}`} id={`chk${project.pid}`} value={project.pid}
-                    innerRef={ref => { this.checkboxes[4+index] = ref; return true;}} style={{ width : '1.25rem', height : '1.25rem' }}/>
+                    innerRef={ref => { this.checkboxes[5+index] = ref; return true;}} style={{ width : '1.25rem', height : '1.25rem' }}/>
                     
                     <Label check size="lg" className="d-inline ml-3">{project.pname}</Label>
                 </Label>
@@ -85,17 +85,24 @@ class AdminGiveAccess extends Component{
                                             
                                             <Label check size="lg" className="d-inline ml-3">Sales Management</Label>
                                         </Label>
+
+                                        <Label check size="lg" className="d-block">
+                                            <Input type="checkbox" name="chkCRM" id="chkCRM" value="103"
+                                            innerRef={(ref) => { this.checkboxes[2] = ref; return true; }} style={{ width : '1.25rem', height : '1.25rem' }}/>
+                                            
+                                            <Label check size="lg" className="d-inline ml-3">Customer Relations Management</Label>
+                                        </Label>
                                         
                                         <Label check size="lg" className="d-block">
                                             <Input type="checkbox" name="chkI" id="chkI" value="104"
-                                            innerRef={(ref) => { this.checkboxes[2] = ref; return true; }} style={{ width : '1.25rem', height : '1.25rem' }}/>
+                                            innerRef={(ref) => { this.checkboxes[3] = ref; return true; }} style={{ width : '1.25rem', height : '1.25rem' }}/>
                                             
                                             <Label check size="lg" className="d-inline ml-3">Inventory Management</Label>
                                         </Label>
                                         
                                         <Label check size="lg" className="d-block">
                                             <Input type="checkbox" name="chkHR" id="chkHR" value="105"
-                                            innerRef={(ref) => { this.checkboxes[3] = ref; return true; }} style={{ width : '1.25rem', height : '1.25rem' }}/>
+                                            innerRef={(ref) => { this.checkboxes[4] = ref; return true; }} style={{ width : '1.25rem', height : '1.25rem' }}/>
                                             
                                             <Label check size="lg" className="d-inline ml-3">Human Resources</Label>
                                         </Label>

@@ -16,6 +16,15 @@ import FinanceTransaction from '../project/FT/FinanceTransactionComponent';
     import FTFundEditFund from '../project/FT/FTFundEditFundComponent';
     import FTFundAddFund from '../project/FT/FTFundAddFundComponent';
 
+import GlobalSales from '../project/SM/GlobalSalesComponent';
+import GlobalCRM from '../project/CRM/GlobalCRMComponent';
+
+import Inventory from '../project/INV/InventoryComponent';
+    import INVInventoryEditInventory from '../project/INV/INVInventoryEditInventoryComponent';
+    import INVInventoryAddInventory from '../project/INV/INVInventoryAddInventoryComponent';
+    import INVStockEditStock from '../project/INV/INVStockEditStockComponent';
+    import INVStockAddStock from '../project/INV/INVStockAddStockComponent';
+
 import { Switch, Route, withRouter } from 'react-router-dom';
 import { Button, ButtonDropdown, DropdownItem, DropdownMenu, DropdownToggle,
     Nav, Navbar, NavbarBrand, NavItem } from 'reactstrap';
@@ -26,19 +35,8 @@ const HeaderUser = ({isBtnOpen, toggleState, location, history}) => {
     }
     function triggerLogout(){
         window.localStorage.removeItem('user');
-
-        const path = location.pathname;
-        if(path.indexOf('view') >= 0 || path.indexOf('edit') >= 0){
-            if((history.length-3) !== (path.split('/').length-2))
-                if(path.indexOf('view') >= 0)
-                    history.go(-(path.split('/').length-2));
-                else
-                    history.go(-(history.length-3));
-            else
-                history.go(-(path.split('/').length-2));
-        }
-        else
-            history.go(-(path.split('/').length-1));
+        history.push('/home');
+        history.push('/userlogin');
     }
     return(
         <div className="row h-25 bg-dark">
@@ -89,7 +87,7 @@ class UserMain extends Component{
     }
 
     preventBackNavigation(event){
-        if((window.location.pathname === '/usermain') && (event.code === 'ArrowLeft' && event.altKey))
+        if((window.location.pathname === '/usermain' || window.location.pathname === '/home') && (event.code === 'ArrowLeft' && event.altKey))
             event.preventDefault();
     }
 
@@ -99,7 +97,7 @@ class UserMain extends Component{
         //filtering uopenproject into open projects and open features, open projects go to UserHome
         let uuoplen = this.props.user.uopenproject.length;
         let plen = this.props.projects.length;
-        const featureList = [101,102,104,105];
+        const featureList = [101,102,103,104,105];
         const openprojects = [];
         const openfeatures = [];
         for(let i = 0; i < uuoplen; i++){
@@ -116,13 +114,17 @@ class UserMain extends Component{
 
         //btnToggler created using open features, btnToggler goes to ProjectNavPane
         const btnTogglerCopy = new Array(5).fill(true);
+        const featureMapper = ['finance_transaction', 'sales_management', 'crm', 'inventory', 'human_resources'];
         let path = this.props.location.pathname;
         if( path === '/usermain' || isNaN(Number(path.split('/')[2])) ){
             for(let i=0; i < openfeatures.length; i++)
                 btnTogglerCopy[openfeatures[i]-101] = false;
+            btnTogglerCopy[featureMapper.indexOf(path.split('/')[2])] = true;
         }
-        else
+        else{
             btnTogglerCopy[1] = btnTogglerCopy[2] = false;
+            btnTogglerCopy[featureMapper.indexOf(path.split('/')[3])] = true;
+        }
 
         this.setState({
             openProjects : openprojects,
@@ -161,6 +163,16 @@ class UserMain extends Component{
             return( <FTFundEditFund fundToEdit={projectEditFund}/> );
         }
 
+        const RenderINVEditInventory = ({match}) => {
+            const projectEditInventory = this.props.inventory.filter((inventoryItem) => inventoryItem.sNo === parseInt(match.params.einvid))[0];
+            return( <INVInventoryEditInventory inventoryToEdit={projectEditInventory}/> );
+        }
+
+        const RenderINVEditStock = ({match}) => {
+            const projectEditInventory = this.props.stocks.filter((stock) => stock.sNo === parseInt(match.params.estkid))[0];
+            return( <INVStockEditStock stockToEdit={projectEditInventory}/> );
+        }
+
         const LoadSelectedProject = ({match}) => {
             return(
                 <ProjectDashboard selectedProject={this.props.projects.filter((project) => project.pid === parseInt(match.params.pid,10))[0]}/>
@@ -190,10 +202,19 @@ class UserMain extends Component{
                         <Route path="/usermain/finance_transaction" component={() => <FinanceTransaction
                             billList={this.props.bills} loanList={this.props.loans} fundList={this.props.funds}/>}/>
                         
-                        {/*<Route path="/usermain/sales_management" component={GlobalSales}/>
+                        <Route path="/usermain/sales_management" component={GlobalSales}/>
                         <Route path="/usermain/crm" component={GlobalCRM}/>
-                        <Route path="/usermain/inventory" component={Inventory}/>
-                        <Route path="/usermain/human_resources" component={HumanResources}/>*/}
+
+                            <Route path="/usermain/inventory/edit_inventory/:einvid" component={RenderINVEditInventory}/>
+                            <Route path="/usermain/inventory/add_inventory" component={INVInventoryAddInventory}/>
+
+                            <Route path="/usermain/inventory/edit_stock/:estkid" component={RenderINVEditStock}/>
+                            <Route path="/usermain/inventory/add_stock" component={INVStockAddStock}/>
+                        
+                        <Route path="/usermain/inventory" component={() => <Inventory
+                            inventory={this.props.inventory} stocks={this.props.stocks}/>}/>
+                        
+                        {/*<Route path="/usermain/human_resources" component={HumanResources}/>*/}
                         
                         <Route exact path="/usermain" component={() => <UserHome openProjects={this.state.openProjects}/>}/>
                         <Route path="/usermain/todo" component={UserTodo}/>
