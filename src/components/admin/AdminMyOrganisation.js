@@ -10,7 +10,9 @@ class AdminMyOrganisation extends Component{
             btotal : 0,
             ltotal : 0,
             ftotal : 0,
-            isModalOpen : false
+            isModalOpen : false,
+            min : 0,
+            max : 0
         };
         this.toggleModal = this.toggleModal.bind(this);
     }
@@ -31,10 +33,27 @@ class AdminMyOrganisation extends Component{
             ftotal = ftotal + fund.fundAmt;
             return true;
         });
+
+        let minC = 0;
+        let maxC = 0;
+        this.props.employees.map((employee, index) => {
+            let paytypeval = (employee.empPayType === 'daily') ? (employee.empPay * 30) : employee.empPay;
+            if(index === 0){
+                minC = paytypeval;
+                maxC = paytypeval;
+            }
+            else{
+                minC = (paytypeval <= minC) ? paytypeval : minC;
+                maxC = (paytypeval >= maxC) ? paytypeval : maxC;
+            }
+            return true;
+        });
         this.setState({
             btotal : btotal,
             ltotal : ltotal,
-            ftotal : ftotal
+            ftotal : ftotal,
+            min : minC,
+            max : maxC
         });
     }
 
@@ -145,6 +164,14 @@ class AdminMyOrganisation extends Component{
                                         <h3 className="font-weight-light">Company Manpower</h3>
                                     </CardTitle>
                                 </Col>
+                            </Row>
+                            <Row className="pt-3">
+                                <Col md={2}><CardTitle className="font-weight-normal">Staff Strength:</CardTitle></Col>
+                                <Col md={2}><CardText>{this.props.employees.length}</CardText></Col>
+                            </Row>
+                            <Row className="pt-3">
+                                <Col md={2}><CardTitle className="font-weight-normal">Range of Pay:</CardTitle></Col>
+                                <Col md={2}><CardText>{this.state.min} - {this.state.max}</CardText></Col>
                             </Row>
                             <hr/>
                             <Row className="pt-3">

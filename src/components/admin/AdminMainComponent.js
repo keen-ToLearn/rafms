@@ -86,6 +86,12 @@ class AdminMain extends Component{
                 selectedProject={this.props.projects.filter((project) => project.pid === parseInt(match.params.pid,10))[0]}/>
             );
         }
+        const RenderOrganisationView = () => {
+            return(
+                <AdminMyOrganisation projects={this.props.projects} employees={this.props.employees}
+                bills={this.props.bills} loans={this.props.loans} funds={this.props.funds}/>
+            );
+        }
 
         return(
             <div className="container-fluid h-100">
@@ -93,7 +99,7 @@ class AdminMain extends Component{
                 location={this.props.location} history={this.props.history}/>
                 <Switch>
                     <Route exact path="/adminmain" component={() => <AdminHome projects={this.props.projects}/>}/>
-                    <Route path="/adminmain/my_org" component={() => <AdminMyOrganisation projects={this.props.projects} bills={this.props.bills} loans={this.props.loans} funds={this.props.funds}/>}/>
+                    <Route path="/adminmain/my_org" component={RenderOrganisationView}/>
                     <Route path="/adminmain/give_access" component={() => <AdminGiveAccess projects={this.props.projects} users={this.props.users}/>}/>
                     <Route path="/adminmain/manage_access" component={() => <AdminManageAccess projects={this.props.projects} users={this.props.users}/>}/>
                     <Route path="/adminmain/add_project" component={AdminAddProject}/>

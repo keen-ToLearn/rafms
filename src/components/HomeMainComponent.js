@@ -14,6 +14,8 @@ import { FUNDS } from '../shared/finances/funds';
 
 import { INVENTORY } from '../shared/inventory/inventory';
 import { STOCKS } from '../shared/inventory/stocks';
+
+import { EMPLOYEES } from '../shared/hr/employees';
 import { Switch, Route, Redirect } from 'react-router-dom';
 
 class HomeMain extends Component{
@@ -27,7 +29,8 @@ class HomeMain extends Component{
             loans : LOANS,
             funds : FUNDS,
             inventory : INVENTORY,
-            stocks : STOCKS
+            stocks : STOCKS,
+            employees : EMPLOYEES
         };
     }
 
@@ -39,7 +42,8 @@ class HomeMain extends Component{
         const RenderAdminMain = () => {
             return(
                 <AdminMain projects={this.state.projects} users={this.state.users}
-                bills={this.state.bills} loans={this.state.loans} funds={this.state.funds}/>
+                bills={this.state.bills} loans={this.state.loans} funds={this.state.funds}
+                employees={this.state.employees}/>
             );
         }
         const RenderUserMain = () => {
@@ -47,7 +51,8 @@ class HomeMain extends Component{
                 <UserMain projects={this.state.projects}
                 user={this.state.users.filter((user) => user.uuname === JSON.parse(window.localStorage.getItem('user')))[0]}
                 bills={this.state.bills} loans={this.state.loans} funds={this.state.funds}
-                inventory={this.state.inventory} stocks={this.state.stocks}/>
+                inventory={this.state.inventory} stocks={this.state.stocks}
+                employees={this.state.employees}/>
             );
         }
         return(

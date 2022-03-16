@@ -25,6 +25,11 @@ import Inventory from '../project/INV/InventoryComponent';
     import INVStockEditStock from '../project/INV/INVStockEditStockComponent';
     import INVStockAddStock from '../project/INV/INVStockAddStockComponent';
 
+import HumanResources from '../project/HR/HumanResourcesComponent';
+    import HREmployeeViewEmployee from '../project/HR/HREmployeeViewEmployeeComponent';
+    import HREmployeeEditEmployee from '../project/HR/HREmployeeEditEmployeeComponent';
+    import HREmployeeAddEmployee from '../project/HR/HREmployeeAddEmployeeComponent';
+
 import { Switch, Route, withRouter } from 'react-router-dom';
 import { Button, ButtonDropdown, DropdownItem, DropdownMenu, DropdownToggle,
     Nav, Navbar, NavbarBrand, NavItem } from 'reactstrap';
@@ -169,8 +174,18 @@ class UserMain extends Component{
         }
 
         const RenderINVEditStock = ({match}) => {
-            const projectEditInventory = this.props.stocks.filter((stock) => stock.sNo === parseInt(match.params.estkid))[0];
-            return( <INVStockEditStock stockToEdit={projectEditInventory}/> );
+            const projectEditStock = this.props.stocks.filter((stock) => stock.sNo === parseInt(match.params.estkid))[0];
+            return( <INVStockEditStock stockToEdit={projectEditStock}/> );
+        }
+
+        const RenderHRViewEmployee = ({match}) => {
+            const projectViewEmployee = this.props.employees.filter((employee) => employee.sNo === parseInt(match.params.vempid))[0];
+            return( <HREmployeeViewEmployee employeeToView={projectViewEmployee}/> );
+        }
+        
+        const RenderHREditEmployee = ({match}) => {
+            const projectEditEmployee = this.props.employees.filter((employee) => employee.sNo === parseInt(match.params.eempid))[0];
+            return( <HREmployeeEditEmployee employeeToEdit={projectEditEmployee}/> );
         }
 
         const LoadSelectedProject = ({match}) => {
@@ -214,7 +229,11 @@ class UserMain extends Component{
                         <Route path="/usermain/inventory" component={() => <Inventory
                             inventory={this.props.inventory} stocks={this.props.stocks}/>}/>
                         
-                        {/*<Route path="/usermain/human_resources" component={HumanResources}/>*/}
+                            <Route path="/usermain/human_resources/view_employee/:vempid" component={RenderHRViewEmployee}/>
+                            <Route path="/usermain/human_resources/edit_employee/:eempid" component={RenderHREditEmployee}/>
+                            <Route path="/usermain/human_resources/add_employee" component={HREmployeeAddEmployee}/>
+                        
+                        <Route path="/usermain/human_resources" component={() => <HumanResources employees={this.props.employees}/>}/>
                         
                         <Route exact path="/usermain" component={() => <UserHome openProjects={this.state.openProjects}/>}/>
                         <Route path="/usermain/todo" component={UserTodo}/>
