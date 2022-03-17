@@ -41,13 +41,15 @@ class HRViewLeave extends Component{
                                         <FormGroup row>
                                             <Label htmlFor="leaveDate" md={3}>Leave Date</Label>
                                             <Col md={9}>
-                                                <Input type="text" id="leaveDate" name="leaveDate" innerRef={(ref) => this.leaveDate = ref}/>
+                                                <Input type="text" id="leaveDate" name="leaveDate" placeholder="Enter leave date"
+                                                innerRef={(ref) => this.leaveDate = ref}/>
                                             </Col>
                                         </FormGroup>
                                         <FormGroup row>
                                             <Label htmlFor="leaveFor" md={3}>Leave Reason</Label>
                                             <Col md={9}>
-                                                <Input type="text" id="leaveFor" name="leaveFor" maxLength="50" innerRef={(ref) => this.leaveFor = ref}/>
+                                                <Input type="text" id="leaveFor" name="leaveFor" maxLength="50" placeholder="Enter leave reason"
+                                                innerRef={(ref) => this.leaveFor = ref}/>
                                             </Col>
                                         </FormGroup>
                                         <FormGroup className="text-right">

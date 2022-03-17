@@ -190,7 +190,8 @@ class UserMain extends Component{
 
         const LoadSelectedProject = ({match}) => {
             return(
-                <ProjectDashboard selectedProject={this.props.projects.filter((project) => project.pid === parseInt(match.params.pid,10))[0]}/>
+                <ProjectDashboard selectedProject={this.props.projects.filter((project) => project.pid === parseInt(match.params.pid,10))[0]}
+                complaints={this.props.complaints.filter((complaint) => complaint.forPid === parseInt(match.params.pid,10))[0]}/>
             );
         }
         return(

@@ -1,4 +1,8 @@
 import React, { Component } from 'react';
+
+import CustomerRelationsManagement from './CRM/CustomerRelationsManagementComponent';
+    import CRMComplaintViewComplaint from './CRM/CRMComplaintViewComplaintComponent';
+
 import { Switch, Route } from 'react-router-dom';
 import { Table } from 'reactstrap';
 
@@ -42,19 +46,23 @@ const ProjectInfo = ({selectedProject}) => {
     );
 }
 class ProjectDashboard extends Component{
-    constructor(props){
-        super(props);
-        this.state = {
-        };
-    }
     render(){
+        const RenderCRMViewComplaint = ({match}) => {
+            const projectViewComplaint = this.props.complaints.issues.filter((issue) => issue.sNo === parseInt(match.params.vcid))[0];
+            return( <CRMComplaintViewComplaint complaintToView={projectViewComplaint}/> );
+        }
+
         return(
             <div className="col-11 p-0">
                 <Switch>
                     <Route exact path={`/usermain/${this.props.selectedProject.pid}`} component={() => <ProjectInfo selectedProject={this.props.selectedProject}/>}/>
 
-                    {/*<Route path={`/usermain/${this.props.selectedProject.pid}/sales_management`} component={SalesManagement}/>
-                    <Route path={`/usermain/${this.props.selectedProject.pid}/crm`} component={CustomerRelationsManagement}/>*/}
+                    {/*<Route path={`/usermain/${this.props.selectedProject.pid}/sales_management`} component={SalesManagement}/>*/}
+
+                        <Route path={`/usermain/${this.props.selectedProject.pid}/crm/view_complaint/:vcid`} component={RenderCRMViewComplaint}/>
+
+                    <Route path={`/usermain/${this.props.selectedProject.pid}/crm`} component={() => <CustomerRelationsManagement
+                        selectedProject={this.props.selectedProject} complaints={this.props.complaints}/>}/>
                 </Switch>
             </div>
         );
