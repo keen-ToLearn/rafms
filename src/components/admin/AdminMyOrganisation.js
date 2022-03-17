@@ -10,9 +10,11 @@ class AdminMyOrganisation extends Component{
             btotal : 0,
             ltotal : 0,
             ftotal : 0,
+            sTotal : 0,
             isModalOpen : false,
             min : 0,
-            max : 0
+            max : 0,
+            nofSales : 0
         };
         this.toggleModal = this.toggleModal.bind(this);
     }
@@ -21,6 +23,8 @@ class AdminMyOrganisation extends Component{
         let btotal = 0;
         let ltotal = 0;
         let ftotal = 0;
+        let sTotal = 0;
+        let nofSales = 0;
         this.props.bills.map((bill) => {
             btotal = btotal + bill.billTotal;
             return true;
@@ -31,6 +35,14 @@ class AdminMyOrganisation extends Component{
         });
         this.props.funds.map((fund) => {
             ftotal = ftotal + fund.fundAmt;
+            return true;
+        });
+        this.props.sales.map((saleClient) => {
+            nofSales = nofSales + saleClient.records.length;
+            saleClient.records.map((sale) => {
+                sTotal = sTotal + sale.saleAmt;
+                return true;
+            });
             return true;
         });
 
@@ -52,8 +64,10 @@ class AdminMyOrganisation extends Component{
             btotal : btotal,
             ltotal : ltotal,
             ftotal : ftotal,
+            sTotal : sTotal,
             min : minC,
-            max : maxC
+            max : maxC,
+            nofSales : nofSales
         });
     }
 
@@ -73,6 +87,25 @@ class AdminMyOrganisation extends Component{
                 <>
                     <Col md={4}><CardTitle className="font-weight-normal">{project.pname}</CardTitle></Col>
                     <Col md={8}><CardText>Since {project.pstart}</CardText></Col>
+                </>
+            );
+        });
+
+        const salesinfo = this.props.sales.map((saleClient) => {
+            const saleRecords = saleClient.records.map((sale) => {
+                return(
+                    <tr>
+                        <td>{sale.sNo}</td>
+                        <td>{this.props.projects[saleClient.forPid].pname}</td>
+                        <td>{sale.saleOf}</td>
+                        <td>{sale.saleQty}</td>
+                        <td>{sale.saleAmt}</td>
+                    </tr>
+                );
+            });
+            return(
+                <>
+                    {saleRecords}
                 </>
             );
         });
@@ -123,10 +156,6 @@ class AdminMyOrganisation extends Component{
                         </Button>
                     </div>
                     <div className="row mx-5">
-                        {/*
-                            Company staff strength, range of pay from /hr
-                            Company total sales quantity and amount /sales
-                        */}
                         <Card className="col-12 p-4 bg-light">
                             <Row>
                                 <Col md={12}>
@@ -200,6 +229,14 @@ class AdminMyOrganisation extends Component{
                                     </CardTitle>
                                 </Col>
                             </Row>
+                            <Row className="pt-3">
+                                <Col md={3}><CardTitle className="font-weight-normal">No. of Sales made:</CardTitle></Col>
+                                <Col md={9}><CardText>{this.state.nofSales}</CardText></Col>
+                            </Row>
+                            <Row className="pt-3">
+                                <Col md={3}><CardTitle className="font-weight-normal">Total Sales:</CardTitle></Col>
+                                <Col md={9}><CardText>{this.state.sTotal}</CardText></Col>
+                            </Row>
                         </Card>
                     </div>
 
@@ -235,8 +272,6 @@ class AdminMyOrganisation extends Component{
                                         </CardTitle>
                                     </Col>
                                     {clientinfo}
-                                    {/* Include total sales in quantity and amount
-                                        Include data of all sales - 3 cols: what, qty, amt */}
                                 </Row>
                                 <hr/>
                                 <Row className="mb-2">
@@ -292,7 +327,7 @@ class AdminMyOrganisation extends Component{
                                 <Row className="mb-2">
                                     <Col md={4}><CardTitle className="font-weight-normal">Funds</CardTitle></Col>
                                     <Col md={6} className="text-right"><CardTitle className="font-weight-normal">Total Funds:</CardTitle></Col>
-                                    <Col md={2}><CardText>{this.state.ltotal}</CardText></Col>
+                                    <Col md={2}><CardText>{this.state.ftotal}</CardText></Col>
                                     <Col md={12}>
                                         <Table borderless>
                                             <thead>
@@ -305,6 +340,34 @@ class AdminMyOrganisation extends Component{
                                             </thead>
                                             <tbody>
                                                 {fundsinfo}
+                                            </tbody>
+                                        </Table>
+                                    </Col>
+                                </Row>
+                                <hr/>
+                                <Row className="mb-2">
+                                    <Col md={12}>
+                                        <CardTitle>
+                                            <h3 className="font-weight-light">Company Sales</h3>
+                                        </CardTitle>
+                                    </Col>
+                                    <Col md={10} className="text-right"><CardTitle className="font-weight-normal">Total Sales:</CardTitle></Col>
+                                    <Col md={2}><CardText>{this.state.sTotal}</CardText></Col>
+                                </Row>
+                                <Row className="mb-2">
+                                    <Col md={12}>
+                                        <Table borderless>
+                                            <thead>
+                                                <tr>
+                                                    <th>Sno.</th>
+                                                    <th>Client</th>
+                                                    <th>Item</th>
+                                                    <th>Qty</th>
+                                                    <th>Amount</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {salesinfo}
                                             </tbody>
                                         </Table>
                                     </Col>

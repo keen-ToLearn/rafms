@@ -3,7 +3,7 @@ export const USERS =
         {
             uid : 'u0',
             uuname : 'user',
-            uopenproject : [1,2]
+            uopenproject : [1,2,3]
         },
         {
             uid : 'u1',

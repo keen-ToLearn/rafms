@@ -3,6 +3,11 @@ import React, { Component } from 'react';
 import CustomerRelationsManagement from './CRM/CustomerRelationsManagementComponent';
     import CRMComplaintViewComplaint from './CRM/CRMComplaintViewComplaintComponent';
 
+import SalesManagement from './SM/SalesManagementComponent';
+    import SMSalesAddSales from './SM/SMSalesAddSalesComponent';
+    import SMSalesEditSales from './SM/SMSalesEditSalesComponent';
+    import SMSalesViewSales from './SM/SMSalesViewSalesComponent';
+
 import { Switch, Route } from 'react-router-dom';
 import { Table } from 'reactstrap';
 
@@ -52,12 +57,26 @@ class ProjectDashboard extends Component{
             return( <CRMComplaintViewComplaint complaintToView={projectViewComplaint}/> );
         }
 
+        const RenderSMEditSales = ({match}) => {
+            const projectEditSale = this.props.sales.records.filter((sale) => sale.sNo === parseInt(match.params.esid))[0];
+            return ( <SMSalesEditSales saleToEdit={projectEditSale}/> );
+        }
+
+        const RenderSMViewSales = ({match}) => {
+            const projectViewSale = this.props.sales.records.filter((sale) => sale.sNo === parseInt(match.params.vsid))[0];
+            return ( <SMSalesViewSales saleToView={projectViewSale} forPid={this.props.selectedProject.pid}/> );
+        }
+
         return(
             <div className="col-11 p-0">
                 <Switch>
                     <Route exact path={`/usermain/${this.props.selectedProject.pid}`} component={() => <ProjectInfo selectedProject={this.props.selectedProject}/>}/>
 
-                    {/*<Route path={`/usermain/${this.props.selectedProject.pid}/sales_management`} component={SalesManagement}/>*/}
+                        <Route path={`/usermain/${this.props.selectedProject.pid}/sales_management/view_sale/:vsid`} component={RenderSMViewSales}/>
+                        <Route path={`/usermain/${this.props.selectedProject.pid}/sales_management/edit_sale/:esid`} component={RenderSMEditSales}/>
+                        <Route path={`/usermain/${this.props.selectedProject.pid}/sales_management/add_sale`} component={SMSalesAddSales}/>
+                    
+                    <Route path={`/usermain/${this.props.selectedProject.pid}/sales_management`} component={() => <SalesManagement sales={this.props.sales}/>}/>
 
                         <Route path={`/usermain/${this.props.selectedProject.pid}/crm/view_complaint/:vcid`} component={RenderCRMViewComplaint}/>
 

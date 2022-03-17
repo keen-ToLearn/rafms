@@ -1,5 +1,9 @@
 export const COMPLAINTS = [
     {
+        forPid : 0,
+        issues : []
+    },
+    {
         forPid : 1,
         issues : [
             {
@@ -56,5 +60,9 @@ export const COMPLAINTS = [
                 cStatus : 'Resolved'
             }
         ]
+    },
+    {
+        forPid : 3,
+        issues : []
     }
 ]

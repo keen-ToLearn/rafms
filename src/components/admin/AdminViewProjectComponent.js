@@ -3,6 +3,19 @@ import { Button, Table } from 'reactstrap';
 import ReactToPrint, { PrintContextConsumer } from 'react-to-print';
 
 class AdminViewProject extends Component{
+    constructor(props){
+        super(props);
+        this.state = {
+            saleTotal : 0
+        };
+    }
+
+    componentDidMount(){
+        let sTotal = 0;
+        this.props.sales.records.map((sale) => { sTotal = sTotal + sale.saleAmt; return true; });
+        this.setState({ saleTotal : sTotal });
+    }
+
     render(){
         return(
             <div className="row">
@@ -32,6 +45,41 @@ class AdminViewProject extends Component{
                                 <th scope="row">Nature of Alliance</th>
                                 <td>{this.props.selectedProject.pdesc}</td>
                             </tr>
+                            <tr>
+                                <th scope="row">Contact No.</th>
+                                <td>{this.props.selectedProject.pContact}</td>
+                            </tr>
+                            <h5 className="ml-2 mt-4">Address</h5>
+                            <tr>
+                                <th scope="row">Area</th>
+                                <td>{this.props.selectedProject.pAddress.area}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Locality</th>
+                                <td>{this.props.selectedProject.pAddress.locality}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Village / City</th>
+                                <td>{this.props.selectedProject.pAddress.vilcity}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Pin Code</th>
+                                <td>{this.props.selectedProject.pAddress.pinCode}</td>
+                            </tr>
+                            {
+                                this.props.sales.records.length <= 0 ? '' :
+                                <>
+                                    <h5 className="ml-2 mt-4">Sales</h5>
+                                    <tr>
+                                        <th scope="row">No. of Sales Made</th>
+                                        <td>{this.props.sales.records.length}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Total Sales</th>
+                                        <td>{this.state.saleTotal}</td>
+                                    </tr>
+                                </>
+                            }
                         </Table>
                     </div>
                 </div>

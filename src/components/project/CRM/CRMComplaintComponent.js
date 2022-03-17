@@ -18,7 +18,7 @@ const RenderTableBody = ({complaints, renderRowList, forPid, showResolved}) => {
                         <td>
                             <span style={{ cursor : 'pointer' }} className="fa fa-times" onClick={() => handleDeletion()}></span>
                             {' '}
-                            <Link className="text-dark" to={`/usermain/${forPid}/view_complaint/${complaint.sNo}`}><span className="fa fa-sticky-note"></span></Link>
+                            <Link className="text-dark" to={`/usermain/${forPid}/crm/view_complaint/${complaint.sNo}`}><span className="fa fa-sticky-note"></span></Link>
                         </td>
                         <td><Link className="text-dark d-block" style={{textDecoration : 'none'}} to={`/usermain/${forPid}/crm/view_complaint/${complaint.sNo}`}>{complaint.sNo}</Link></td>
                         <td><Link className="text-dark d-block" style={{textDecoration : 'none'}} to={`/usermain/${forPid}/crm/view_complaint/${complaint.sNo}`}>{complaint.cDate}</Link></td>

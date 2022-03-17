@@ -41,5 +41,19 @@ export const PROJECTS =
                 vilcity : 'Alibaug',
                 pinCode : '405701'
             }
+        },
+        {
+            pid : 3,
+            pname : "T Mart",
+            pstart : "9/11/2021",
+            pdesc : "Supplying construction tools to T Mart",
+            ppriority : "Low",
+            pContact : 7741594917,
+            pAddress : {
+                area : 'Tikujiniwadi',
+                locality : 'Manpada',
+                vilcity : 'Thane',
+                pinCode : '400610'
+            }
         }
     ]

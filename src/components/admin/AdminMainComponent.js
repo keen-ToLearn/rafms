@@ -83,12 +83,13 @@ class AdminMain extends Component{
         const ViewSelectedProject = ({match}) => {
             return(
                 <AdminViewProject
-                selectedProject={this.props.projects.filter((project) => project.pid === parseInt(match.params.pid,10))[0]}/>
+                selectedProject={this.props.projects.filter((project) => project.pid === parseInt(match.params.pid,10))[0]}
+                sales={this.props.sales.filter((salesClient) => salesClient.forPid === parseInt(match.params.pid,10))[0]}/>
             );
         }
         const RenderOrganisationView = () => {
             return(
-                <AdminMyOrganisation projects={this.props.projects} employees={this.props.employees}
+                <AdminMyOrganisation projects={this.props.projects} employees={this.props.employees} sales={this.props.sales}
                 bills={this.props.bills} loans={this.props.loans} funds={this.props.funds}/>
             );
         }

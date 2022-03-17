@@ -34,7 +34,7 @@ import { Switch, Route, withRouter } from 'react-router-dom';
 import { Button, ButtonDropdown, DropdownItem, DropdownMenu, DropdownToggle,
     Nav, Navbar, NavbarBrand, NavItem } from 'reactstrap';
 
-const HeaderUser = ({isBtnOpen, toggleState, location, history}) => {
+const HeaderUser = ({isBtnOpen, toggleState, location, history, uuname}) => {
     function toggleBtn(){
         isBtnOpen = !isBtnOpen
     }
@@ -50,6 +50,9 @@ const HeaderUser = ({isBtnOpen, toggleState, location, history}) => {
                         <h1 className="display-2 text-white">RAFMS</h1>
                     </NavbarBrand>
                     <Nav className="float-right" navbar>
+                        <NavItem className="mr-4">
+                            <h4 className="font-weight-light text-white">Welcome {uuname}</h4>
+                        </NavItem>
                         <NavItem className="mr-4">
                             <Button type="button" className="btn-outline-light" onClick={() => {
                                 if(location.pathname !== '/usermain/todo')
@@ -191,13 +194,14 @@ class UserMain extends Component{
         const LoadSelectedProject = ({match}) => {
             return(
                 <ProjectDashboard selectedProject={this.props.projects.filter((project) => project.pid === parseInt(match.params.pid,10))[0]}
-                complaints={this.props.complaints.filter((complaint) => complaint.forPid === parseInt(match.params.pid,10))[0]}/>
+                complaints={this.props.complaints.filter((complaint) => complaint.forPid === parseInt(match.params.pid,10))[0]}
+                sales={this.props.sales.filter((salesClient) => salesClient.forPid === parseInt(match.params.pid,10))[0]}/>
             );
         }
         return(
             <div className="container-fluid h-100">
                 <HeaderUser isBtnOpen={this.state.isBtnOpen} toggleState={(iBO) => this.toggleState(iBO)}
-                location={this.props.location} history={this.props.history}/>
+                location={this.props.location} history={this.props.history} uuname={this.props.user.uuname}/>
                 <div className="row h-75">
                     { (this.props.location.pathname !== '/usermain/todo') ?
                         <ProjectNavPane btnToggler={this.state.btnToggler} /> : <></> }
