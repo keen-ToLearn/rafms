@@ -3,12 +3,12 @@ import { withRouter } from 'react-router-dom';
 import { Badge, Card, CardBody, CardTitle, Col, Row } from 'reactstrap';
 
 class AdminManageAccess extends Component{
-    constructor(props){
-        super(props);
-        this.handleAccessRemoval = this.handleAccessRemoval.bind(this);
+    handleAccessRemoval(uid){
+        const newuopenproject = [];
+        this.props.usersPut(uid, newuopenproject);
+        this.props.history.replace('/adminmain/give_access');
     }
-    handleAccessRemoval(){
-    }
+
     render(){
         const useraccesses = this.props.users.map((user) => {
             let uopeprojectCopy = [...user.uopenproject];
@@ -56,7 +56,7 @@ class AdminManageAccess extends Component{
                                     </CardBody>
                                 </Col>
                                 <Col md={2}>
-                                    <span className="fa fa-trash fa-2x py-4" onClick={this.handleAccessRemoval} style={{ cursor : 'pointer' }}></span>
+                                    <span className="fa fa-trash fa-2x py-4" onClick={() => this.handleAccessRemoval(user.id)} style={{ cursor : 'pointer' }}></span>
                                 </Col>
                             </Row>
                         </Card>
@@ -73,9 +73,11 @@ class AdminManageAccess extends Component{
                         <h1 className="font-weight-normal mr-5 text-primary" style={{ cursor : 'pointer' }} onClick={() => this.props.history.replace('/adminmain/give_access')}>Give Access</h1>
                         <h1 className="font-weight-normal text-primary" style={{ cursor : 'pointer' }} onClick={() => this.props.history.replace('/adminmain/manage_access')}>Manage Access</h1>
                     </div>
-                    <div className="row text-left pt-5">
-                        {useraccesses}
-                    </div>
+                    { this.props.givingAccess ? <span className="mt-5 fa fa-circle-o-notch fa-spin fa-3x"></span> :
+                        <div className="row text-left pt-5">
+                            {useraccesses}
+                        </div>
+                    }
                 </div>
             </div>
         );

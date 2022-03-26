@@ -24,7 +24,8 @@ class HRViewAttendance extends Component{
         this.setState({ renderRowList : renderRowListCopy });
     }
 
-    handleDeletion(){
+    handleDeletion(index){
+        this.props.employeesUnmarkAttendance(this.props.eid, index);
     }
 
     render(){
@@ -32,7 +33,7 @@ class HRViewAttendance extends Component{
             if(this.state.renderRowList[index] === 1){
                 return(
                     <tr>
-                        <td><span style={{ cursor : 'pointer' }} className="fa fa-times" onClick={() => this.handleDeletion()}></span></td>
+                        <td><span style={{ cursor : 'pointer' }} className="fa fa-times" onClick={() => this.handleDeletion(index)}></span></td>
                         <td>{attendanceItem}</td>
                     </tr>
                 );

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import { Card, Form, FormGroup, Row, Col, Button, Label, Input } from 'reactstrap';
 
 class SMSalesAddSales extends Component{
@@ -24,6 +25,15 @@ class SMSalesAddSales extends Component{
 
     handleSubmit(event){
         event.preventDefault();
+        const newSale = {
+            sNo : this.props.recordsLength+1,
+            saleOf : this.state.saleOf,
+            saleDate : this.state.saleDate,
+            saleQty : this.state.saleQty,
+            saleAmt : this.state.saleAmt
+        };
+        this.props.salesPostDelete(this.props.forPid, newSale, 'POST');
+        this.props.history.push(`/usermain/${this.props.forPid}/sales_management`);
     }
 
     render(){
@@ -80,4 +90,4 @@ class SMSalesAddSales extends Component{
     }
 }
 
-export default SMSalesAddSales;
+export default withRouter(SMSalesAddSales);

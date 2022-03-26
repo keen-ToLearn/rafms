@@ -123,15 +123,16 @@ class HREmployee extends Component{
 
     clearCheckboxes(){
         for(let i=0; i<this.checkBoxes.length; i++)
-            this.checkBoxes[i].checked = false;
+            if(this.checkBoxes[i] !== null)
+                this.checkBoxes[i].checked = false;
     }
 
     handleMarker(){
         const present = [];
         for(let i=0; i<this.checkBoxes.length; i++)
             if(this.checkBoxes[i].checked)
-                present.push(this.checkBoxes[i].value);
-        
+                present.push(Number(this.checkBoxes[i].value));
+        this.props.employeesMarkAttendance(present);
         this.clearCheckboxes();
     }
 
@@ -145,7 +146,7 @@ class HREmployee extends Component{
 
     render(){
         const paySlips = this.checkBoxes.map((checkBox) => {
-            if(checkBox.checked){
+            if(checkBox !== null && checkBox.checked){
                 return(
                     <div className="p-2 mb-3 border border-secondary">
                         <Table bordered>

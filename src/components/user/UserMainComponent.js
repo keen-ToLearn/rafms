@@ -34,12 +34,12 @@ import { Switch, Route, withRouter } from 'react-router-dom';
 import { Button, ButtonDropdown, DropdownItem, DropdownMenu, DropdownToggle,
     Nav, Navbar, NavbarBrand, NavItem } from 'reactstrap';
 
-const HeaderUser = ({isBtnOpen, toggleState, location, history, uuname}) => {
+const HeaderUser = ({isBtnOpen, toggleState, location, history, user, usersLogInOut}) => {
     function toggleBtn(){
         isBtnOpen = !isBtnOpen
     }
     function triggerLogout(){
-        window.localStorage.removeItem('user');
+        usersLogInOut(user.id, false);
         history.push('/home');
         history.push('/userlogin');
     }
@@ -51,7 +51,7 @@ const HeaderUser = ({isBtnOpen, toggleState, location, history, uuname}) => {
                     </NavbarBrand>
                     <Nav className="float-right" navbar>
                         <NavItem className="mr-4">
-                            <h4 className="font-weight-light text-white">Welcome {uuname}</h4>
+                            <h4 className="font-weight-light text-white">Welcome {user.uuname}</h4>
                         </NavItem>
                         <NavItem className="mr-4">
                             <Button type="button" className="btn-outline-light" onClick={() => {
@@ -104,7 +104,7 @@ class UserMain extends Component{
 
         //filtering uopenproject into open projects and open features, open projects go to UserHome
         let uuoplen = this.props.user.uopenproject.length;
-        let plen = this.props.projects.length;
+        let plen = this.props.projects.projects.length;
         const featureList = [101,102,103,104,105];
         const openprojects = [];
         const openfeatures = [];
@@ -114,8 +114,8 @@ class UserMain extends Component{
             }
             else
                 for(let j = 0; j < plen; j++)
-                    if (this.props.user.uopenproject[i] === this.props.projects[j].pid) {
-                        openprojects.push(this.props.projects[j]);
+                    if (this.props.user.uopenproject[i] === this.props.projects.projects[j].pid) {
+                        openprojects.push(this.props.projects.projects[j]);
                         break;
                     }
         }
@@ -142,66 +142,115 @@ class UserMain extends Component{
 
     render(){
         const RenderFTViewBill = ({match}) => {
-            const projectViewBill = this.props.bills.filter((bill) => bill.sNo === parseInt(match.params.vbid))[0];
-            return( <FTBillViewBill billToView={projectViewBill}/> );
+            if(this.props.finances.isLoading)
+                return(<div className="mx-auto"><span className="mt-5 fa fa-circle-o-notch fa-spin fa-3x"></span></div>);
+            else{
+                const projectViewBill = this.props.finances.bills.filter((bill) => bill.sNo === parseInt(match.params.vbid))[0];
+                return( <FTBillViewBill billToView={projectViewBill}/> );
+            }
         }
 
         const RenderFTEditBill = ({match}) => {
-            const projectEditBill = this.props.bills.filter((bill) => bill.sNo === parseInt(match.params.ebid))[0];
-            return( <FTBillEditBill billToEdit={projectEditBill} projects={this.props.projects}/> );
+            if(this.props.finances.isLoading)
+                return(<div className="mx-auto"><span className="mt-5 fa fa-circle-o-notch fa-spin fa-3x"></span></div>);
+            else{
+                const projectEditBill = this.props.finances.bills.filter((bill) => bill.sNo === parseInt(match.params.ebid))[0];
+                return( <FTBillEditBill billToEdit={projectEditBill} projects={this.props.projects.projects} billsPut={this.props.billsPut}/> );
+            }
         }
 
         const RenderFTViewLoan = ({match}) => {
-            const projectViewLoan = this.props.loans.filter((loan) => loan.sNo === parseInt(match.params.vlid))[0];
-            return( <FTLoanViewLoan loanToView={projectViewLoan}/> );
+            if(this.props.finances.isLoading)
+                return(<div className="mx-auto"><span className="mt-5 fa fa-circle-o-notch fa-spin fa-3x"></span></div>);
+            else{
+                const projectViewLoan = this.props.finances.loans.filter((loan) => loan.sNo === parseInt(match.params.vlid))[0];
+                return( <FTLoanViewLoan loanToView={projectViewLoan}/> );
+            }
         }
 
         const RenderFTEditLoan = ({match}) => {
-            const projectEditLoan = this.props.loans.filter((loan) => loan.sNo === parseInt(match.params.elid))[0];
-            return( <FTLoanEditLoan loanToEdit={projectEditLoan}/> );
+            if(this.props.finances.isLoading)
+                return(<div className="mx-auto"><span className="mt-5 fa fa-circle-o-notch fa-spin fa-3x"></span></div>);
+            else{
+                const projectEditLoan = this.props.finances.loans.filter((loan) => loan.sNo === parseInt(match.params.elid))[0];
+                return( <FTLoanEditLoan loanToEdit={projectEditLoan} loansPut={this.props.loansPut}/> );
+            }
         }
 
         const RenderFTViewFund = ({match}) => {
-            const projectViewFund = this.props.funds.filter((fund) => fund.sNo === parseInt(match.params.vfid))[0];
-            return( <FTFundViewFund fundToView={projectViewFund}/> );
+            if(this.props.finances.isLoading)
+                return(<div className="mx-auto"><span className="mt-5 fa fa-circle-o-notch fa-spin fa-3x"></span></div>);
+            else{
+                const projectViewFund = this.props.finances.funds.filter((fund) => fund.sNo === parseInt(match.params.vfid))[0];
+                return( <FTFundViewFund fundToView={projectViewFund}/> );
+            }
         }
 
         const RenderFTEditFund = ({match}) => {
-            const projectEditFund = this.props.funds.filter((fund) => fund.sNo === parseInt(match.params.efid))[0];
-            return( <FTFundEditFund fundToEdit={projectEditFund}/> );
+            if(this.props.finances.isLoading)
+                return(<div className="mx-auto"><span className="mt-5 fa fa-circle-o-notch fa-spin fa-3x"></span></div>);
+            else{
+                const projectEditFund = this.props.finances.funds.filter((fund) => fund.sNo === parseInt(match.params.efid))[0];
+                return( <FTFundEditFund fundToEdit={projectEditFund} fundsPut={this.props.fundsPut}/> );
+            }
         }
 
         const RenderINVEditInventory = ({match}) => {
-            const projectEditInventory = this.props.inventory.filter((inventoryItem) => inventoryItem.sNo === parseInt(match.params.einvid))[0];
-            return( <INVInventoryEditInventory inventoryToEdit={projectEditInventory}/> );
+            if(this.props.inventory.isLoading)
+                return(<div className="mx-auto"><span className="mt-5 fa fa-circle-o-notch fa-spin fa-3x"></span></div>);
+            else{
+                const projectEditInventory = this.props.inventory.inventory.filter((inventoryItem) => inventoryItem.sNo === parseInt(match.params.einvid))[0];
+                return( <INVInventoryEditInventory inventoryToEdit={projectEditInventory} inventoryPut={this.props.inventoryPut}/> );
+            }
         }
 
         const RenderINVEditStock = ({match}) => {
-            const projectEditStock = this.props.stocks.filter((stock) => stock.sNo === parseInt(match.params.estkid))[0];
-            return( <INVStockEditStock stockToEdit={projectEditStock}/> );
+            if(this.props.inventory.isLoading)
+                return(<div className="mx-auto"><span className="mt-5 fa fa-circle-o-notch fa-spin fa-3x"></span></div>);
+            else{
+                const projectEditStock = this.props.inventory.stocks.filter((stock) => stock.sNo === parseInt(match.params.estkid))[0];
+                return( <INVStockEditStock stockToEdit={projectEditStock} stocksPut={this.props.stocksPut}/> );
+            }
         }
 
         const RenderHRViewEmployee = ({match}) => {
-            const projectViewEmployee = this.props.employees.filter((employee) => employee.sNo === parseInt(match.params.vempid))[0];
-            return( <HREmployeeViewEmployee employeeToView={projectViewEmployee}/> );
+            if(this.props.employees.isLoading)
+                return(<div className="mx-auto"><span className="mt-5 fa fa-circle-o-notch fa-spin fa-3x"></span></div>);
+            else{
+                const projectViewEmployee = this.props.employees.employees.filter((employee) => employee.sNo === parseInt(match.params.vempid))[0];
+                return(
+                    <HREmployeeViewEmployee employeeToView={projectViewEmployee} employeesAddLeave={this.props.employeesAddLeave} employeesUnmarkAttendance={this.props.employeesUnmarkAttendance}
+                        addingunmarking={this.props.employees.addingunmarking}/>
+                );
+            }
         }
         
         const RenderHREditEmployee = ({match}) => {
-            const projectEditEmployee = this.props.employees.filter((employee) => employee.sNo === parseInt(match.params.eempid))[0];
-            return( <HREmployeeEditEmployee employeeToEdit={projectEditEmployee}/> );
+            if(this.props.employees.isLoading)
+                return(<div className="mx-auto"><span className="mt-5 fa fa-circle-o-notch fa-spin fa-3x"></span></div>);
+            else{
+                const projectEditEmployee = this.props.employees.employees.filter((employee) => employee.sNo === parseInt(match.params.eempid))[0];
+                return( <HREmployeeEditEmployee employeeToEdit={projectEditEmployee} employeesPut={this.props.employeesPut}/> );
+            }
         }
 
         const LoadSelectedProject = ({match}) => {
-            return(
-                <ProjectDashboard selectedProject={this.props.projects.filter((project) => project.pid === parseInt(match.params.pid,10))[0]}
-                complaints={this.props.complaints.filter((complaint) => complaint.forPid === parseInt(match.params.pid,10))[0]}
-                sales={this.props.sales.filter((salesClient) => salesClient.forPid === parseInt(match.params.pid,10))[0]}/>
-            );
+            if(this.props.projects.isLoading)
+                return(<span className="mt-5 fa fa-circle-o-notch fa-spin fa-3x"></span>);
+            else
+                return(
+                    <ProjectDashboard selectedProject={this.props.projects.projects.filter((project) => project.pid === parseInt(match.params.pid,10))[0]}
+                    complaints={this.props.complaints.complaints.filter((complaint) => complaint.forPid === parseInt(match.params.pid,10))[0]}
+                    isLoadingComplaint={this.props.complaints.isLoading} errMesComplaint={this.props.complaints.errMes} postingDeletingComplaint={this.props.complaints.postingdeleting}
+                    sales={this.props.sales.sales.filter((salesClient) => salesClient.forPid === parseInt(match.params.pid,10))[0]}
+                    isLoadingSales={this.props.sales.isLoading} errMesSales={this.props.sales.errMes} postingDeletingSale={this.props.sales.postingdeleting}
+                    projectsPut={this.props.projectsPut} complaintsPostDelete={this.props.complaintsPostDelete} salesPostDelete={this.props.salesPostDelete}/>
+                );
         }
         return(
             <div className="container-fluid h-100">
-                <HeaderUser isBtnOpen={this.state.isBtnOpen} toggleState={(iBO) => this.toggleState(iBO)}
-                location={this.props.location} history={this.props.history} uuname={this.props.user.uuname}/>
+                <HeaderUser isBtnOpen={this.state.isBtnOpen} toggleState={(iBO) => this.toggleState(iBO)} usersLogInOut={this.props.usersLogInOut}
+                location={this.props.location} history={this.props.history} user={this.props.user}/>
                 <div className="row h-75">
                     { (this.props.location.pathname !== '/usermain/todo') ?
                         <ProjectNavPane btnToggler={this.state.btnToggler} /> : <></> }
@@ -209,39 +258,37 @@ class UserMain extends Component{
                     <Switch>
                             <Route path="/usermain/finance_transaction/view_bill/:vbid" component={RenderFTViewBill}/>
                             <Route path="/usermain/finance_transaction/edit_bill/:ebid" component={RenderFTEditBill}/>
-                            <Route path="/usermain/finance_transaction/add_bill" component={() => <FTBillAddBill projects={this.props.projects}/>}/>
+                            <Route path="/usermain/finance_transaction/add_bill" component={() => <FTBillAddBill projects={this.props.projects.projects} billsPost={this.props.billsPost} recordsLength={this.props.finances.bills.length}/>}/>
 
                             <Route path="/usermain/finance_transaction/view_loan/:vlid" component={RenderFTViewLoan}/>
                             <Route path="/usermain/finance_transaction/edit_loan/:elid" component={RenderFTEditLoan}/>
-                            <Route path="/usermain/finance_transaction/add_loan" component={FTLoanAddLoan}/>
+                            <Route path="/usermain/finance_transaction/add_loan" component={() => <FTLoanAddLoan loansPost={this.props.loansPost} recordsLength={this.props.finances.loans.length}/>}/>
 
                             <Route path="/usermain/finance_transaction/view_fund/:vfid" component={RenderFTViewFund}/>
                             <Route path="/usermain/finance_transaction/edit_fund/:efid" component={RenderFTEditFund}/>
-                            <Route path="/usermain/finance_transaction/add_fund" component={FTFundAddFund}/>
+                            <Route path="/usermain/finance_transaction/add_fund" component={() => <FTFundAddFund fundsPost={this.props.fundsPost} recordsLength={this.props.finances.funds.length}/>}/>
 
-                        <Route path="/usermain/finance_transaction" component={() => <FinanceTransaction
-                            billList={this.props.bills} loanList={this.props.loans} fundList={this.props.funds}/>}/>
+                        <Route path="/usermain/finance_transaction" component={() => <FinanceTransaction finances={this.props.finances}/>}/>
                         
                         <Route path="/usermain/sales_management" component={GlobalSales}/>
                         <Route path="/usermain/crm" component={GlobalCRM}/>
 
                             <Route path="/usermain/inventory/edit_inventory/:einvid" component={RenderINVEditInventory}/>
-                            <Route path="/usermain/inventory/add_inventory" component={INVInventoryAddInventory}/>
+                            <Route path="/usermain/inventory/add_inventory" component={() => <INVInventoryAddInventory inventoryPost={this.props.inventoryPost} recordsLength={this.props.inventory.inventory.length}/>}/>
 
                             <Route path="/usermain/inventory/edit_stock/:estkid" component={RenderINVEditStock}/>
-                            <Route path="/usermain/inventory/add_stock" component={INVStockAddStock}/>
+                            <Route path="/usermain/inventory/add_stock" component={() => <INVStockAddStock stocksPost={this.props.stocksPost} recordsLength={this.props.inventory.stocks.length}/>}/>
                         
-                        <Route path="/usermain/inventory" component={() => <Inventory
-                            inventory={this.props.inventory} stocks={this.props.stocks}/>}/>
+                        <Route path="/usermain/inventory" component={() => <Inventory inventory={this.props.inventory}/>}/>
                         
                             <Route path="/usermain/human_resources/view_employee/:vempid" component={RenderHRViewEmployee}/>
                             <Route path="/usermain/human_resources/edit_employee/:eempid" component={RenderHREditEmployee}/>
-                            <Route path="/usermain/human_resources/add_employee" component={HREmployeeAddEmployee}/>
+                            <Route path="/usermain/human_resources/add_employee" component={() => <HREmployeeAddEmployee employeesPost={this.props.employeesPost} recordsLength={this.props.employees.employees.length}/>}/>
                         
-                        <Route path="/usermain/human_resources" component={() => <HumanResources employees={this.props.employees}/>}/>
+                        <Route path="/usermain/human_resources" component={() => <HumanResources employees={this.props.employees} employeesMarkAttendance={this.props.employeesMarkAttendance}/>}/>
                         
                         <Route exact path="/usermain" component={() => <UserHome openProjects={this.state.openProjects}/>}/>
-                        <Route path="/usermain/todo" component={UserTodo}/>
+                        <Route path="/usermain/todo" component={() => <UserTodo uid={this.props.user.id} todoList={this.props.user.utodo} addingdeletingtask={this.props.user.addingdeletingtask} usersAddDeleteTask={this.props.usersAddDeleteTask}/>}/>
                         <Route path="/usermain/:pid" component={LoadSelectedProject}/>
                     </Switch>
                 </div>

@@ -3,8 +3,9 @@ import { Button, Col, Input, InputGroup, InputGroupAddon, InputGroupText, Row, T
 import { Link } from "react-router-dom";
 import ReactToPrint, { PrintContextConsumer } from 'react-to-print';
 
-const RenderTableBody = ({salesDetails, renderRowList, forPid}) => {
-    function handleDeletion(){
+const RenderTableBody = ({salesDetails, renderRowList, forPid, salesPostDelete}) => {
+    function handleDeletion(sNo){
+        salesPostDelete(forPid, sNo, 'DELETE');
     }
 
     if( salesDetails === '')
@@ -16,7 +17,7 @@ const RenderTableBody = ({salesDetails, renderRowList, forPid}) => {
             return(
                 <tr key={saleDetail.sNo}>
                     <td>
-                        <span style={{ cursor : 'pointer' }} className="fa fa-times" onClick={() => handleDeletion()}></span>
+                        <span style={{ cursor : 'pointer' }} className="fa fa-times" onClick={() => handleDeletion(saleDetail.sNo)}></span>
                         {' '}
                         <Link className="text-dark" to={`/usermain/${forPid}/sales_management/view_sale/${saleDetail.sNo}`}><span className="fa fa-sticky-note"></span></Link>
                         {' '}
@@ -132,7 +133,8 @@ class SMSales extends Component{
                                         <th onClick={() => this.toggleThIcon(4)} style={{cursor : 'pointer'}}>Amount <span className={`fa fa-sort text-${this.state.thIconList[4]}`}></span></th>
                                     </tr>
                                 </thead>
-                                <RenderTableBody salesDetails={this.state.sales} renderRowList={this.state.renderRowList} forPid={this.props.sales.forPid}/>
+                                <RenderTableBody salesDetails={this.state.sales} renderRowList={this.state.renderRowList}
+                                    forPid={this.props.sales.forPid} salesPostDelete={this.props.salesPostDelete}/>
                             </Table>
                         </div>
                     </Col>

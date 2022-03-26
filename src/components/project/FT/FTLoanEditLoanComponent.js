@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import { Card, Form, FormGroup, Row, Col, Button, Label, Input } from 'reactstrap';
 
 class FTLoanEditLoan extends Component{
@@ -25,7 +26,14 @@ class FTLoanEditLoan extends Component{
     }
 
     handleEdit(event){
-        //event.preventDefault();
+        event.preventDefault();
+        const editLoan = this.state;
+        editLoan.sNo = this.props.loanToEdit.sNo;
+        editLoan.loanAmt = Number(editLoan.loanAmt);
+        editLoan.loanPeriod = Number(editLoan.loanPeriod);
+        editLoan.loanRate = Number(editLoan.loanRate);
+        this.props.loansPut(this.props.loanToEdit.id, editLoan);
+        this.props.history.push('/usermain/finance_transaction');
     }
 
     render(){
@@ -102,4 +110,4 @@ class FTLoanEditLoan extends Component{
     }
 }
 
-export default FTLoanEditLoan;
+export default withRouter(FTLoanEditLoan);

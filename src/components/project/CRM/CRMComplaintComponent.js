@@ -3,8 +3,9 @@ import { Button, Col, Input, InputGroup, InputGroupAddon, InputGroupText, Row, T
     Modal, ModalHeader, ModalBody, Form, FormGroup, Label } from "reactstrap";
 import { Link } from "react-router-dom";
 
-const RenderTableBody = ({complaints, renderRowList, forPid, showResolved}) => {
-    function handleDeletion(){
+const RenderTableBody = ({complaints, renderRowList, forPid, showResolved, complaintsPostDelete}) => {
+    function handleDeletion(sNo){
+        complaintsPostDelete(forPid, sNo, 'DELETE');
     }
     if( complaints === '')
         return(
@@ -16,7 +17,7 @@ const RenderTableBody = ({complaints, renderRowList, forPid, showResolved}) => {
                 return(
                     <tr key={complaint.sNo}>
                         <td>
-                            <span style={{ cursor : 'pointer' }} className="fa fa-times" onClick={() => handleDeletion()}></span>
+                            <span style={{ cursor : 'pointer' }} className="fa fa-times" onClick={() => handleDeletion(complaint.sNo)}></span>
                             {' '}
                             <Link className="text-dark" to={`/usermain/${forPid}/crm/view_complaint/${complaint.sNo}`}><span className="fa fa-sticky-note"></span></Link>
                         </td>
@@ -66,6 +67,14 @@ class CRMComplaint extends Component{
 
     handleSubmit(event){
         event.preventDefault();
+        const newComplaint = {
+            sNo : this.state.complaints.length+1,
+            cDate : this.state.cDate,
+            cDesc : this.state.cDesc,
+            cStatus : 'Pending'
+        };
+        this.props.complaintsPostDelete(this.props.complaints.forPid, newComplaint, 'POST');
+        this.toggleModal();
     }
 
     filterTrData(){
@@ -115,7 +124,7 @@ class CRMComplaint extends Component{
                                     </tr>
                                 </thead>
                                 <RenderTableBody complaints={this.state.complaints} renderRowList={this.state.renderRowList}
-                                    forPid={this.props.complaints.forPid} showResolved={this.state.showResolved}/>
+                                    forPid={this.props.complaints.forPid} showResolved={this.state.showResolved} complaintsPostDelete={this.props.complaintsPostDelete}/>
                             </Table>
                         </div>
                     </Col>

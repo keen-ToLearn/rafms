@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import { Card, Form, FormGroup, Col, Button, Label, Input } from 'reactstrap';
 
 class FTFundEditFund extends Component{
@@ -22,7 +23,12 @@ class FTFundEditFund extends Component{
     }
 
     handleEdit(event){
-        //event.preventDefault();
+        event.preventDefault();
+        const editFund = this.state;
+        editFund.sNo = this.props.fundToEdit.sNo;
+        editFund.fundAmt = Number(editFund.fundAmt);
+        this.props.fundsPut(this.props.fundToEdit.id, editFund);
+        this.props.history.push('/usermain/finance_transaction');
     }
 
     render(){
@@ -72,4 +78,4 @@ class FTFundEditFund extends Component{
     }
 }
 
-export default FTFundEditFund;
+export default withRouter(FTFundEditFund);

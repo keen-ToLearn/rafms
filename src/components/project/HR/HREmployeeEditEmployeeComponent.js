@@ -33,6 +33,24 @@ class HREmployeeEditEmployee extends Component{
 
     handleEdit(event){
         event.preventDefault();
+        const editEmployee = {
+            sNo : this.props.employeeToEdit.sNo,
+            empName : this.state.empName,
+            empAge : Number(this.state.empAge),
+            empDept : this.state.empDept,
+            empRole : this.state.empRole,
+            empMobNo : this.state.empMobNo,
+            empAddress : {
+                resd : this.state.resd,
+                locality : this.state.locality,
+                vilcity : this.state.vilcity,
+                pincode : this.state.pincode,
+            },
+            empDailyHours : Number(this.state.empDailyHours),
+            empPayType : this.state.empPayType,
+            empPay : Number(this.state.empPay)
+        };
+        this.props.employeesPut(editEmployee);
         this.props.history.push('/usermain/human_resources');
     }
 

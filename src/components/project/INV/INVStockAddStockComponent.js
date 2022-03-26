@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import { Card, Form, FormGroup, Row, Col, Button, Label, Input } from 'reactstrap';
 
 class INVStockAddStock extends Component{
@@ -32,7 +33,11 @@ class INVStockAddStock extends Component{
     }
 
     handleSubmit(event){
-        //event.preventDefault();
+        event.preventDefault();
+        const newStock = this.state;
+        newStock.sNo = this.props.recordsLength + 1;
+        this.props.stocksPost(newStock);
+        this.props.history.push('/usermain/inventory');
     }
 
     render(){
@@ -91,4 +96,4 @@ class INVStockAddStock extends Component{
     }
 }
 
-export default INVStockAddStock;
+export default withRouter(INVStockAddStock);

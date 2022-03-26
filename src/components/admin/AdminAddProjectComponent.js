@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { Card, Form, FormGroup, Label, Input, Col, Button, ButtonGroup } from 'reactstrap';
 
 class AdminAddProject extends Component{
     constructor(props){
         super(props);
         this.state = {
+            pid : this.props.pid,
             pname : '',
             pstart : '',
             pdesc : '',
@@ -23,8 +24,13 @@ class AdminAddProject extends Component{
         this.setState({ [name] : value });
     }
 
-    handleCreation(event){
-        //event.preventDefault();
+    handlePriorityChange(priority){
+        this.setState({ ppriority : priority });
+    }
+
+    handleCreation(){
+        this.props.projectsPost(this.state);
+        this.props.history.push('/adminmain');
     }
     
     render(){
@@ -80,15 +86,15 @@ class AdminAddProject extends Component{
                                     <Col md={9}>
                                         <ButtonGroup>
                                             <Button type="button" id="ppriority" name="ppriority" color="danger"
-                                            value={this.state.ppriority} onClick={this.handleInputChange}>
+                                            value={this.state.ppriority} onClick={() => this.handlePriorityChange('High')}>
                                                 High
                                             </Button>
                                             <Button type="button" id="ppriority" name="ppriority" color="warning"
-                                            value={this.state.ppriority} onClick={this.handleInputChange}>
+                                            value={this.state.ppriority} onClick={() => this.handlePriorityChange('Medium')}>
                                                 Medium
                                             </Button>
                                             <Button type="button" id="ppriority" name="ppriority" color="success"
-                                            value={this.state.ppriority} onClick={this.handleInputChange}>
+                                            value={this.state.ppriority} onClick={() => this.handlePriorityChange('Low')}>
                                                 Low
                                             </Button>
                                         </ButtonGroup>
@@ -96,9 +102,7 @@ class AdminAddProject extends Component{
                                 </FormGroup>
                                 <FormGroup row>
                                     <Col md={2}>
-                                        <Link to="/adminmain">
-                                            <Button type="submit" color="info">Create</Button>
-                                        </Link>
+                                        <Button type="submit" color="info">Create</Button>
                                     </Col>
                                 </FormGroup>
                             </Form>
@@ -110,4 +114,4 @@ class AdminAddProject extends Component{
     }
 }
 
-export default AdminAddProject;
+export default withRouter(AdminAddProject);

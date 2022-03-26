@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import { Card, Form, FormGroup, FormText, Row, Col, Button, Label, Input } from 'reactstrap';
 
 class FTBillAddBill extends Component{
@@ -12,6 +13,10 @@ class FTBillAddBill extends Component{
             billTotal : '',
             times : 1,
         };
+        this.billItemQty = [];
+        this.billItemDesc = [];
+        this.billItemUnitCost = [];
+        this.billItemTotal = [];
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
     }
@@ -24,8 +29,38 @@ class FTBillAddBill extends Component{
         this.setState({ [name] : value });
     }
 
+    handleItemTotalCalculation(index){
+        if(this.billItemQty[index].value !== '' && this.billItemUnitCost[index].value !== ''){
+            this.billItemTotal[index].value = this.billItemQty[index].value * this.billItemUnitCost[index].value;
+        }
+        else{
+            this.billItemTotal[index].value = 0;
+        }
+    }
+
     handleSubmit(event){
-        //event.preventDefault();
+        event.preventDefault();
+        const newBill = {
+            sNo : this.props.recordsLength + 1,
+            billTo : this.state.billTo,
+            billName : this.state.billName,
+            billDate : this.state.billDate,
+            billClient : this.state.billClient,
+            billTotal : Number(this.state.billTotal)
+        };
+        const billrecords = [];
+        for(let i=0; i < this.state.times; i++){
+            const billrecord = {
+                itemQty : Number(this.billItemQty[i].value),
+                itemDesc : this.billItemDesc[i].value,
+                itemUnitCost : Number(this.billItemUnitCost[i].value),
+                itemTotal : Number(this.billItemTotal[i].value)
+            }
+            billrecords.push(billrecord);
+        }
+        newBill.billRecords = billrecords;
+        this.props.billsPost(newBill);
+        this.props.history.push('/usermain/finance_transaction');
     }
 
     changeTimes(incdec){
@@ -36,31 +71,31 @@ class FTBillAddBill extends Component{
     render(){
         const RenderRecordToAdd = ({times}) => {
             let tmpTimes = new Array(times).fill(1);
-            const timesRecordList = tmpTimes.map(() => {
+            const timesRecordList = tmpTimes.map((ele, index) => {
                 return(
                     <Row>
                         <Col md={3}>
                             <FormGroup>
                                 <Label htmlFor="itemQty" md={12}>Qty</Label>
-                                <Input type="number" id="itemQty" name="itemQty" placeholder="Product Qty" innerRef={(input) => this.itemQty = input}/>
+                                <Input type="number" id="itemQty" name="itemQty" placeholder="Product Qty" innerRef={(input) => this.billItemQty[index] = input} onChange={() => this.handleItemTotalCalculation(index)}/>
                             </FormGroup>
                         </Col>
                         <Col md={3}>
                             <FormGroup>
                                 <Label htmlFor="itemDesc" md={12}>Product</Label>
-                                <Input type="text" id="itemDesc" name="itemDesc" placeholder="Description" innerRef={(input) => this.itemDesc = input}/>
+                                <Input type="text" id="itemDesc" name="itemDesc" placeholder="Description" innerRef={(input) => this.billItemDesc[index] = input}/>
                             </FormGroup>
                         </Col>
                         <Col md={3}>
                             <FormGroup>
                                 <Label htmlFor="itemUnitCost" md={12}>Unit Cost</Label>
-                                <Input type="number" id="itemUnitCost" name="itemUnitCost" placeholder="Unit Cost" innerRef={(input) => this.itemUnitCost = input}/>
+                                <Input type="number" id="itemUnitCost" name="itemUnitCost" placeholder="Unit Cost" innerRef={(input) => this.billItemUnitCost[index] = input} onChange={() => this.handleItemTotalCalculation(index)}/>
                             </FormGroup>
                         </Col>
                         <Col md={3}>
                             <FormGroup>
                                 <Label htmlFor="itemTotal" md={12}>Product Total</Label>
-                                <Input type="number" id="itemTotal" name="itemTotal" placeholder="Total Cost" innerRef={(input) => this.itemTotal = input}/>
+                                <Input type="number" id="itemTotal" name="itemTotal" placeholder="Total Cost" innerRef={ref => this.billItemTotal[index] = ref} readOnly/>
                             </FormGroup>
                         </Col>
                     </Row>
@@ -150,4 +185,4 @@ class FTBillAddBill extends Component{
     }
 }
 
-export default FTBillAddBill;
+export default withRouter(FTBillAddBill);

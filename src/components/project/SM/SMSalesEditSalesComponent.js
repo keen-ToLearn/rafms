@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import { Card, Form, FormGroup, Row, Col, Button, Label, Input } from 'reactstrap';
 
 class SMSalesEditSales extends Component{
@@ -10,7 +11,7 @@ class SMSalesEditSales extends Component{
             saleQty : this.props.saleToEdit.saleQty,
             saleAmt : this.props.saleToEdit.saleAmt
         };
-        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleEdit = this.handleEdit.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
     }
     
@@ -22,8 +23,12 @@ class SMSalesEditSales extends Component{
         this.setState({ [name] : value });
     }
 
-    handleSubmit(event){
+    handleEdit(event){
         event.preventDefault();
+        const newSale = this.state;
+        newSale.sNo = this.props.saleToEdit.sNo;
+        this.props.salesPostDelete(this.props.forPid, newSale, 'PUT');
+        this.props.history.push(`/usermain/${this.props.forPid}/sales_management`);
     }
 
     render(){
@@ -36,7 +41,7 @@ class SMSalesEditSales extends Component{
                 </div>
                 <div className="row text-left">
                     <Card className="p-3 mt-5 col-md-8 offset-2 bg-light">
-                        <Form onSubmit={this.handleSubmit}>
+                        <Form onSubmit={this.handleEdit}>
                             <FormGroup row>
                                 <Label htmlFor="saleOf" md={2}>Item</Label>
                                 <Col md={10}>
@@ -80,4 +85,4 @@ class SMSalesEditSales extends Component{
     }
 }
 
-export default SMSalesEditSales;
+export default withRouter(SMSalesEditSales);

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import { Card, Form, FormGroup, FormText, Row, Col, Button, Label, Input } from 'reactstrap';
 
 class FTBillEditBill extends Component{
@@ -12,6 +13,10 @@ class FTBillEditBill extends Component{
             billTotal : this.props.billToEdit.billTotal,
             billRecords : this.props.billToEdit.billRecords
         };
+        this.billItemQty = [];
+        this.billItemDesc = [];
+        this.billItemUnitCost = [];
+        this.billItemTotal = [];
         this.handleEdit = this.handleEdit.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
     }
@@ -24,41 +29,71 @@ class FTBillEditBill extends Component{
         this.setState({ [name] : value });
     }
 
+    handleItemTotalCalculation(index){
+        if(this.billItemQty[index].value !== '' && this.billItemUnitCost[index].value !== ''){
+            this.billItemTotal[index].value = this.billItemQty[index].value * this.billItemUnitCost[index].value;
+        }
+        else{
+            this.billItemTotal[index].value = 0;
+        }
+    }
+
     handleEdit(event){
-        //event.preventDefault();
+        event.preventDefault();
+        const editBill = {
+            sNo : this.props.billToEdit.sNo,
+            billTo : this.state.billTo,
+            billName : this.state.billName,
+            billDate : this.state.billDate,
+            billClient : this.state.billClient,
+            billTotal : Number(this.state.billTotal)
+        };
+        const billrecords = [];
+        for(let i=0; i<this.state.billRecords.length; i++){
+            const billrecord = {
+                itemQty : Number(this.billItemQty[i].value),
+                itemDesc : this.billItemDesc[i].value,
+                itemUnitCost : Number(this.billItemUnitCost[i].value),
+                itemTotal : Number(this.billItemTotal[i].value)
+            }
+            billrecords.push(billrecord);
+        }
+        editBill.billRecords = billrecords;
+        this.props.billsPut(this.props.billToEdit.id, editBill);
+        this.props.history.push('/usermain/finance_transaction');
     }
 
     render(){
         const RenderRecordToEdit = ({billRecords}) => {
-            const editRecList = billRecords.map((billRecord) => {
+            const editRecList = billRecords.map((billRecord, index) => {
                 return(
                     <Row>
                         <Col md={3}>
                             <FormGroup>
                                 <Label htmlFor="itemQty" md={12}>Qty</Label>
-                                <Input type="number" id="itemQty" name="itemQty" placeholder="Product Qty"
-                                value={billRecord.itemQty} valid={billRecord.itemQty !== ''} onChange={this.handleInputChange}/>
+                                <Input type="number" id="itemQty" name="itemQty" placeholder="Product Qty" innerRef={input => this.billItemQty[index] = input}
+                                defaultValue={billRecord.itemQty} valid={billRecord.itemQty !== ''} onChange={() => this.handleItemTotalCalculation(index)} />
                             </FormGroup>
                         </Col>
                         <Col md={3}>
                             <FormGroup>
                                 <Label htmlFor="itemDesc" md={12}>Product</Label>
-                                <Input type="text" id="itemDesc" name="itemDesc" placeholder="Description"
-                                value={billRecord.itemDesc} valid={billRecord.itemDesc !== ''} onChange={this.handleInputChange}/>
+                                <Input type="text" id="itemDesc" name="itemDesc" placeholder="Description" innerRef={input => this.billItemDesc[index] = input}
+                                defaultValue={billRecord.itemDesc} valid={billRecord.itemDesc !== ''}/>
                             </FormGroup>
                         </Col>
                         <Col md={3}>
                             <FormGroup>
                                 <Label htmlFor="itemUnitCost" md={12}>Unit Cost</Label>
-                                <Input type="number" id="itemUnitCost" name="itemUnitCost" placeholder="Unit Cost"
-                                value={billRecord.itemUnitCost} valid={billRecord.itemUnitCost !== ''} onChange={this.handleInputChange}/>
+                                <Input type="number" id="itemUnitCost" name="itemUnitCost" placeholder="Unit Cost" innerRef={input => this.billItemUnitCost[index] = input}
+                                defaultValue={billRecord.itemUnitCost} valid={billRecord.itemUnitCost !== ''} onChange={() => this.handleItemTotalCalculation(index)}/>
                             </FormGroup>
                         </Col>
                         <Col md={3}>
                             <FormGroup>
                                 <Label htmlFor="itemTotal" md={12}>Product Total</Label>
-                                <Input type="number" id="itemTotal" name="itemTotal" placeholder="Total Cost"
-                                value={billRecord.itemTotal} valid={billRecord.itemTotal !== ''} onChange={this.handleInputChange}/>
+                                <Input type="number" id="itemTotal" name="itemTotal" placeholder="Total Cost" innerRef={ref => this.billItemTotal[index] = ref}
+                                defaultValue={billRecord.itemTotal} valid={billRecord.itemTotal !== ''} readOnly/>
                             </FormGroup>
                         </Col>
                     </Row>
@@ -144,4 +179,4 @@ class FTBillEditBill extends Component{
     }
 }
 
-export default FTBillEditBill;
+export default withRouter(FTBillEditBill);

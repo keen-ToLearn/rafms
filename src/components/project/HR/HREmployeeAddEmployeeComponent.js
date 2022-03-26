@@ -33,6 +33,26 @@ class HREmployeeAddEmployee extends Component{
 
     handleSubmit(event){
         event.preventDefault();
+        const newEmployee = {
+            sNo : this.props.recordsLength + 1,
+            empName : this.state.empName,
+            empAge : Number(this.state.empAge),
+            empDept : this.state.empDept,
+            empRole : this.state.empRole,
+            empMobNo : this.state.empMobNo,
+            empAddress : {
+                resd : this.state.resd,
+                locality : this.state.locality,
+                vilcity : this.state.vilcity,
+                pincode : this.state.pincode,
+            },
+            empDailyHours : Number(this.state.empDailyHours),
+            empPayType : this.state.empPayType,
+            empPay : Number(this.state.empPay),
+            empAttendance : [],
+            empLeave : []
+        };
+        this.props.employeesPost(newEmployee);
         this.props.history.push('/usermain/human_resources');
     }
 

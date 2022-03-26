@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import { Card, Form, FormGroup, Row, Col, Button, Label, Input } from 'reactstrap';
 
 class FTLoanAddLoan extends Component{
@@ -25,7 +26,14 @@ class FTLoanAddLoan extends Component{
     }
 
     handleSubmit(event){
-        //event.preventDefault();
+        event.preventDefault();
+        const newLoan = this.state;
+        newLoan.sNo = this.props.recordsLength + 1;
+        newLoan.loanAmt = Number(newLoan.loanAmt);
+        newLoan.loanPeriod = Number(newLoan.loanPeriod);
+        newLoan.loanRate = Number(newLoan.loanRate);
+        this.props.loansPost(newLoan);
+        this.props.history.push('/usermain/finance_transaction');
     }
 
     render(){
@@ -102,4 +110,4 @@ class FTLoanAddLoan extends Component{
     }
 }
 
-export default FTLoanAddLoan;
+export default withRouter(FTLoanAddLoan);

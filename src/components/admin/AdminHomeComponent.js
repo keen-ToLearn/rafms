@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Card, CardTitle, CardHeader, CardBody, CardText, Button,
-    InputGroup, InputGroupAddon, Input, InputGroupText  } from 'reactstrap';
+    InputGroup, InputGroupAddon, Input, InputGroupText } from 'reactstrap';
 
 const RenderProject = ({project}) => {
     return(
@@ -27,13 +27,13 @@ class AdminHome extends Component{
     constructor(props){
         super(props);
         this.state = {
-            renderRowList : new Array(this.props.projects.length).fill(1)
+            renderRowList : new Array(this.props.projects.projects.length).fill(1)
         };
         this.filterClientData = this.filterClientData.bind(this);
     }
 
     filterClientData(){
-        const projectsCopy = [...this.props.projects];
+        const projectsCopy = [...this.props.projects.projects];
         const renderRowListCopy = [...this.state.renderRowList];
         for(let i=0; i<projectsCopy.length; i++){
             let pnametmp = projectsCopy[i].pname.toLowerCase();
@@ -46,7 +46,7 @@ class AdminHome extends Component{
     }
     
     render(){
-        const projectlist = this.props.projects.map((project) => {
+        const projectlist = this.props.projects.projects.map((project) => {
             return(
                 <div key={project.pid} className={`col-12 col-md-4 p-5 ${ this.state.renderRowList[project.pid] === 1 ? '' : 'd-none' }`}>
                     <RenderProject project={project}/>
@@ -76,7 +76,9 @@ class AdminHome extends Component{
                         </InputGroup>
                     </div>
                     <div className="row justify-content-center p-4">
-                        {projectlist}
+                        { (this.props.projects.isLoading || this.props.projects.posting || this.props.projects.putting) ? <span className="fa fa-circle-o-notch fa-spin fa-3x"></span> :
+                            ( (this.props.projects.errMes !== null) ? <h4>{this.props.projects.errMes}</h4> : <>{projectlist}</> )
+                        }
                     </div>
                 </div>
             </div>

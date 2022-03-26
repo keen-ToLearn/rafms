@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import { Card, Form, FormGroup, FormText, Col, Button, Label, Input } from 'reactstrap';
 
 class CRMModifyClient extends Component{
     constructor(props){
         super(props);
         this.state = {
+            pid : this.props.selectedProject.pid,
             pdesc : this.props.selectedProject.pdesc,
             pContact : this.props.selectedProject.pContact,
             area : this.props.selectedProject.pAddress.area,
@@ -24,8 +26,9 @@ class CRMModifyClient extends Component{
         this.setState({ [name] : value });
     }
 
-    handleEdit(event){
-        event.preventDefault();
+    handleEdit(){
+        this.props.projectsPut(this.state);
+        this.props.history.push(`/usermain/${this.state.pid}/crm`);
     }
 
     render(){
@@ -92,4 +95,4 @@ class CRMModifyClient extends Component{
     }
 }
 
-export default CRMModifyClient;
+export default withRouter(CRMModifyClient);

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import { Card, Form, FormGroup, Row, Col, Button, Label, Input } from 'reactstrap';
 
 class INVInventoryAddInventory extends Component{
@@ -34,7 +35,11 @@ class INVInventoryAddInventory extends Component{
     }
 
     handleSubmit(event){
-        //event.preventDefault();
+        event.preventDefault();
+        const newInventory = this.state;
+        newInventory.sNo = this.props.recordsLength + 1;
+        this.props.inventoryPost(newInventory);
+        this.props.history.push('/usermain/inventory');
     }
 
     render(){
@@ -109,4 +114,4 @@ class INVInventoryAddInventory extends Component{
     }
 }
 
-export default INVInventoryAddInventory;
+export default withRouter(INVInventoryAddInventory);

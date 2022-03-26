@@ -75,21 +75,32 @@ class AdminMain extends Component{
 
     render(){
         const EditSelectedProject = ({match}) => {
-            return(
-                <AdminEditProject
-                selectedProject={this.props.projects.filter((project) => project.pid === parseInt(match.params.pid,10))[0]}/>
-            );
+            if(this.props.projects.isLoading)
+                return(
+                    <span className="mt-5 fa fa-circle-o-notch fa-spin fa-3x"></span>
+                );
+            else
+                return(
+                    <AdminEditProject
+                    selectedProject={this.props.projects.projects.filter((project) => project.pid === parseInt(match.params.pid,10))[0]}
+                    projectsPut={this.props.projectsPut}/>
+                );
         }
         const ViewSelectedProject = ({match}) => {
-            return(
-                <AdminViewProject
-                selectedProject={this.props.projects.filter((project) => project.pid === parseInt(match.params.pid,10))[0]}
-                sales={this.props.sales.filter((salesClient) => salesClient.forPid === parseInt(match.params.pid,10))[0]}/>
-            );
+            if(this.props.projects.isLoading || (this.props.sales.length === 0))
+                return(
+                    <span className="mt-5 fa fa-circle-o-notch fa-spin fa-3x"></span>
+                );
+            else
+                return(
+                    <AdminViewProject
+                    selectedProject={this.props.projects.projects.filter((project) => project.pid === parseInt(match.params.pid,10))[0]}
+                    sales={this.props.sales.filter((salesClient) => salesClient.forPid === parseInt(match.params.pid,10))[0]}/>
+                );
         }
         const RenderOrganisationView = () => {
             return(
-                <AdminMyOrganisation projects={this.props.projects} employees={this.props.employees} sales={this.props.sales}
+                <AdminMyOrganisation projects={this.props.projects.projects} employees={this.props.employees} sales={this.props.sales}
                 bills={this.props.bills} loans={this.props.loans} funds={this.props.funds}/>
             );
         }
@@ -101,9 +112,9 @@ class AdminMain extends Component{
                 <Switch>
                     <Route exact path="/adminmain" component={() => <AdminHome projects={this.props.projects}/>}/>
                     <Route path="/adminmain/my_org" component={RenderOrganisationView}/>
-                    <Route path="/adminmain/give_access" component={() => <AdminGiveAccess projects={this.props.projects} users={this.props.users}/>}/>
-                    <Route path="/adminmain/manage_access" component={() => <AdminManageAccess projects={this.props.projects} users={this.props.users}/>}/>
-                    <Route path="/adminmain/add_project" component={AdminAddProject}/>
+                    <Route path="/adminmain/give_access" component={() => <AdminGiveAccess projects={this.props.projects.projects} users={this.props.users} usersPut={this.props.usersPut} givingAccess={this.props.givingAccess}/>}/>
+                    <Route path="/adminmain/manage_access" component={() => <AdminManageAccess projects={this.props.projects.projects} users={this.props.users} usersPut={this.props.usersPut} givingAccess={this.props.givingAccess}/>}/>
+                    <Route path="/adminmain/add_project" component={() => <AdminAddProject pid={this.props.projects.projects.length} projectsPost={this.props.projectsPost}/>}/>
                     <Route path="/adminmain/edit_project/:pid" component={EditSelectedProject}/>
                     <Route path="/adminmain/view_project/:pid" component={ViewSelectedProject}/>
                 </Switch>

@@ -70,28 +70,30 @@ class HREmployeeViewEmployee extends Component{
                         </Table>
                     </div>
                     <hr/>
-                    <div className="row-fluid col-10 mx-5 mt-5 px-0">
-                        <Nav className="mx-3 mt-1 nav nav-tabs justify-content-center">
-                            <NavItem className="pl-1 nav-item">
-                                <NavLink onClick={() => this.activeTabModifier('1')} href="#" className={(this.state.activeTab === '1')?'active':''}>
-                                    <h5 className="m-0">Leave</h5>
-                                </NavLink>
-                            </NavItem>
-                            <NavItem className="pl-1 nav-item">
-                                <NavLink onClick={() => this.activeTabModifier('2')} href="#" className={(this.state.activeTab === '2')?'active':''}>
-                                    <h5 className="m-0">Attendance</h5>
-                                </NavLink>
-                            </NavItem>
-                        </Nav>
-                        <TabContent className="mx-3 pt-5 border border-top-0 rounded-bottom" activeTab={this.state.activeTab}>
-                            <TabPane tabId='1'>
-                                <HRViewLeave leaves={this.props.employeeToView.empLeave}/>
-                            </TabPane>
-                            <TabPane tabId='2'>
-                                <HRViewAttendance attendance={this.props.employeeToView.empAttendance}/>
-                            </TabPane>
-                        </TabContent>
-                    </div>
+                    { this.props.addingunmarking ? <div className="mx-auto"><span className="mt-5 fa fa-circle-o-notch fa-spin fa-3x"></span></div> :
+                        <div className="row-fluid col-10 mx-5 mt-5 px-0">
+                            <Nav className="mx-3 mt-1 nav nav-tabs justify-content-center">
+                                <NavItem className="pl-1 nav-item">
+                                    <NavLink onClick={() => this.activeTabModifier('1')} href="#" className={(this.state.activeTab === '1')?'active':''}>
+                                        <h5 className="m-0">Leave</h5>
+                                    </NavLink>
+                                </NavItem>
+                                <NavItem className="pl-1 nav-item">
+                                    <NavLink onClick={() => this.activeTabModifier('2')} href="#" className={(this.state.activeTab === '2')?'active':''}>
+                                        <h5 className="m-0">Attendance</h5>
+                                    </NavLink>
+                                </NavItem>
+                            </Nav>
+                            <TabContent className="mx-3 pt-5 border border-top-0 rounded-bottom" activeTab={this.state.activeTab}>
+                                <TabPane tabId='1'>
+                                    <HRViewLeave eid={this.props.employeeToView.id} employeesAddLeave={this.props.employeesAddLeave} leaves={this.props.employeeToView.empLeave}/>
+                                </TabPane>
+                                <TabPane tabId='2'>
+                                    <HRViewAttendance eid={this.props.employeeToView.id} employeesUnmarkAttendance={this.props.employeesUnmarkAttendance} attendance={this.props.employeeToView.empAttendance}/>
+                                </TabPane>
+                            </TabContent>
+                        </div>
+                    }
                 </div>
             </div>
         );

@@ -53,18 +53,52 @@ const ProjectInfo = ({selectedProject}) => {
 class ProjectDashboard extends Component{
     render(){
         const RenderCRMViewComplaint = ({match}) => {
-            const projectViewComplaint = this.props.complaints.issues.filter((issue) => issue.sNo === parseInt(match.params.vcid))[0];
-            return( <CRMComplaintViewComplaint complaintToView={projectViewComplaint}/> );
+            if(this.props.isLoadingComplaint){
+                return(<span className="mt-5 fa fa-circle-o-notch fa-spin fa-3x"></span>);
+            }
+            else{
+                const projectViewComplaint = this.props.complaints.issues.filter((issue) => issue.sNo === parseInt(match.params.vcid))[0];
+                if(typeof projectViewComplaint === 'undefined'){
+                    return(<h4 className="mt-5">Complaint Deleted</h4>);
+                }
+                else
+                    return(
+                        <CRMComplaintViewComplaint complaintToView={projectViewComplaint} forPid={this.props.complaints.forPid}
+                            complaintsPostDelete={this.props.complaintsPostDelete}/>
+                    );
+            }
         }
 
         const RenderSMEditSales = ({match}) => {
-            const projectEditSale = this.props.sales.records.filter((sale) => sale.sNo === parseInt(match.params.esid))[0];
-            return ( <SMSalesEditSales saleToEdit={projectEditSale}/> );
+            if(this.props.isLoadingSales){
+                return(<span className="mt-5 fa fa-circle-o-notch fa-spin fa-3x"></span>);
+            }
+            else{
+                const projectEditSale = this.props.sales.records.filter((sale) => sale.sNo === parseInt(match.params.esid))[0];
+                if(typeof projectEditSale === 'undefined'){
+                    return(<h4 className="mt-5">Sale Data Deleted</h4>);
+                }
+                else
+                    return (
+                        <SMSalesEditSales saleToEdit={projectEditSale} salesPostDelete={this.props.salesPostDelete} forPid={this.props.sales.forPid}/>
+                    );
+            }
         }
 
         const RenderSMViewSales = ({match}) => {
-            const projectViewSale = this.props.sales.records.filter((sale) => sale.sNo === parseInt(match.params.vsid))[0];
-            return ( <SMSalesViewSales saleToView={projectViewSale} forPid={this.props.selectedProject.pid}/> );
+            if(this.props.isLoadingSales){
+                return(<span className="mt-5 fa fa-circle-o-notch fa-spin fa-3x"></span>);
+            }
+            else{
+                const projectViewSale = this.props.sales.records.filter((sale) => sale.sNo === parseInt(match.params.vsid))[0];
+                if(typeof projectViewSale === 'undefined'){
+                    return(<h4 className="mt-5">Sale Data Deleted</h4>);
+                }
+                else
+                    return(
+                        <SMSalesViewSales saleToView={projectViewSale} forPid={this.props.sales.forPid}/>
+                    );
+            }
         }
 
         return(
@@ -74,14 +108,16 @@ class ProjectDashboard extends Component{
 
                         <Route path={`/usermain/${this.props.selectedProject.pid}/sales_management/view_sale/:vsid`} component={RenderSMViewSales}/>
                         <Route path={`/usermain/${this.props.selectedProject.pid}/sales_management/edit_sale/:esid`} component={RenderSMEditSales}/>
-                        <Route path={`/usermain/${this.props.selectedProject.pid}/sales_management/add_sale`} component={SMSalesAddSales}/>
+                        <Route path={`/usermain/${this.props.selectedProject.pid}/sales_management/add_sale`} component={() => <SMSalesAddSales forPid={this.props.sales.forPid} recordsLength={this.props.sales.records.length} salesPostDelete={this.props.salesPostDelete}/>}/>
                     
-                    <Route path={`/usermain/${this.props.selectedProject.pid}/sales_management`} component={() => <SalesManagement sales={this.props.sales}/>}/>
+                    <Route path={`/usermain/${this.props.selectedProject.pid}/sales_management`} component={() => <SalesManagement sales={this.props.sales}
+                        isLoading={this.props.isLoadingSales} errMes={this.props.errMesSales} postingdeleting={this.props.postingDeletingSale} salesPostDelete={this.props.salesPostDelete}/>}/>
 
                         <Route path={`/usermain/${this.props.selectedProject.pid}/crm/view_complaint/:vcid`} component={RenderCRMViewComplaint}/>
 
-                    <Route path={`/usermain/${this.props.selectedProject.pid}/crm`} component={() => <CustomerRelationsManagement
-                        selectedProject={this.props.selectedProject} complaints={this.props.complaints}/>}/>
+                    <Route path={`/usermain/${this.props.selectedProject.pid}/crm`} component={() => <CustomerRelationsManagement selectedProject={this.props.selectedProject} complaints={this.props.complaints}
+                        isLoading={this.props.isLoadingComplaint} errMes={this.props.errMesComplaint} postingdeleting={this.props.postingDeletingComplaint}
+                        projectsPut={this.props.projectsPut} complaintsPostDelete={this.props.complaintsPostDelete}/>}/>
                 </Switch>
             </div>
         );

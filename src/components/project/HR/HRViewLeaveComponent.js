@@ -14,6 +14,11 @@ class HRViewLeave extends Component{
     }
     handleSubmit(event){
         event.preventDefault();
+        const newLeaveInfo = {
+            leaveDate : this.leaveDate.value,
+            leaveFor : this.leaveFor.value
+        };
+        this.props.employeesAddLeave(this.props.eid, newLeaveInfo);
         this.toggleOpenForm();
     }
     render(){

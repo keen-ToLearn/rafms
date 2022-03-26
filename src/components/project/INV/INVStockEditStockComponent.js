@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import { Card, Form, FormGroup, Row, Col, Button, Label, Input } from 'reactstrap';
 
 class INVStockEditStock extends Component{
@@ -32,7 +33,11 @@ class INVStockEditStock extends Component{
     }
 
     handleEdit(event){
-        //event.preventDefault();
+        event.preventDefault();
+        const editStock = this.state;
+        editStock.sNo = this.props.stockToEdit.sNo;
+        this.props.stocksPut(this.props.stockToEdit.id, editStock);
+        this.props.history.push('/usermain/inventory');
     }
 
     render(){
@@ -91,4 +96,4 @@ class INVStockEditStock extends Component{
     }
 }
 
-export default INVStockEditStock;
+export default withRouter(INVStockEditStock);

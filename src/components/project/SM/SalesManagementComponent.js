@@ -15,19 +15,25 @@ class SalesManagement extends Component{
     render(){
         return(
             <div className="col-11 pt-3">
-                <Nav className="mx-4 mt-1 nav nav-tabs">
-                    <NavItem className="px-4 nav-item"></NavItem>
-                    <NavItem className="pl-1 nav-item">
-                        <NavLink onClick={() => this.activeTabModifier('1')} href="#" className={(this.state.activeTab === '1')?'active':''}>
-                            <h5 className="m-0">Sales</h5>
-                        </NavLink>
-                    </NavItem>
-                </Nav>
-                <TabContent className="mx-4 pt-5 border border-top-0 rounded-bottom" activeTab={this.state.activeTab}>
-                    <TabPane tabId='1'>
-                        <SMSales sales={this.props.sales}/>
-                    </TabPane>
-                </TabContent>
+                { (this.props.isLoading || this.props.postingdeleting) ? <span className="mt-5 fa fa-circle-o-notch fa-spin fa-3x"></span> :
+                    ( (this.props.errMes !== null) ? <h4>{this.props.errMes}</h4> :
+                        <>
+                            <Nav className="mx-4 mt-1 nav nav-tabs">
+                                <NavItem className="px-4 nav-item"></NavItem>
+                                <NavItem className="pl-1 nav-item">
+                                    <NavLink onClick={() => this.activeTabModifier('1')} href="#" className={(this.state.activeTab === '1')?'active':''}>
+                                        <h5 className="m-0">Sales</h5>
+                                    </NavLink>
+                                </NavItem>
+                            </Nav>
+                            <TabContent className="mx-4 pt-5 border border-top-0 rounded-bottom" activeTab={this.state.activeTab}>
+                                <TabPane tabId='1'>
+                                    <SMSales sales={this.props.sales} salesPostDelete={this.props.salesPostDelete}/>
+                                </TabPane>
+                            </TabContent>
+                        </>
+                    )
+                }
             </div>
         );
     }
