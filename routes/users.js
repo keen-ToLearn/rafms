@@ -17,7 +17,7 @@ router.get('/:id', (req, res) => {
 
 router.put('/:id', (req, res) => {
     Users.findByIdAndUpdate(req.params.id, {$set : req.body}, {new : true})
-        .then(() => res.json(req.body))
+        .then(user => res.json(user))
         .catch(error => res.status(400).json(error));
 });
 

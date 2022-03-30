@@ -10,7 +10,7 @@ router.post('/', (req, res) => {
     });
 
     newProjectSale.save()
-        .then(() => res.json(req.body))
+        .then(sale => res.json(sale))
         .catch(error => res.status(400).json(error));
 });
 
@@ -28,7 +28,7 @@ router.get('/:id', (req, res) => {
 
 router.put('/:id', (req, res) => {
     Sales.findByIdAndUpdate(req.params.id, {$set : req.body}, {new : true})
-        .then(() => res.json(req.body))
+        .then(sale => res.json(sale))
         .catch(error => res.status(400).json(error));
 });
 

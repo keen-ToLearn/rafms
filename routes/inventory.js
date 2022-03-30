@@ -21,13 +21,13 @@ router.post('/', (req, res) => {
     });
 
     newInventory.save()
-        .then(() => res.json(req.body))
+        .then(inventory => res.json(inventory))
         .catch(error => res.status(400).json(error));
 });
 
 router.put('/:id', (req, res) => {
     Inventory.findByIdAndUpdate(req.params.id, {$set : req.body}, {new : true})
-        .then(() => res.json(req.body))
+        .then(inventory => res.json(inventory))
         .catch(error => res.status(400).json(error));
 });
 

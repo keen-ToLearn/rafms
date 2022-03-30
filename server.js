@@ -37,11 +37,7 @@ app.use('/sales', sales);
 
 const mongoString = process.env.DB_URI;
 
-mongoose.connect(mongoString, {
-    useNewUrlParser : true,
-    useUnifiedTopology : true,
-    useCreateIndex : true
-});
+mongoose.connect(mongoString);
 
 const database = mongoose.connection;
 

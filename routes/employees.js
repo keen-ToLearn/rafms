@@ -26,7 +26,7 @@ router.post('/', (req, res) => {
     });
 
     newEmployee.save()
-        .then(() => res.json(req.body))
+        .then(employee => res.json(employee))
         .catch(error => res.status(400).json(error));
 });
 
@@ -38,7 +38,7 @@ router.get('/:id', (req, res) => {
 
 router.put('/:id', (req, res) => {
     Employees.findByIdAndUpdate(req.params.id, {$set : req.body}, {new : true})
-        .then(() => res.json(req.body))
+        .then(employee => res.json(employee))
         .catch(error => res.status(400).json(error));
 });
 

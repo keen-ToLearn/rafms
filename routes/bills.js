@@ -21,13 +21,13 @@ router.post('/', (req, res) => {
     });
 
     newBill.save()
-        .then(() => res.json(req.body))
+        .then(bill => res.json(bill))
         .catch(error => res.status(400).json(error));
 });
 
 router.put('/:id', (req, res) => {
     Bills.findByIdAndUpdate(req.params.id, {$set : req.body}, {new : true})
-        .then(() => res.json(req.body))
+        .then(bill => res.json(bill))
         .catch(error => res.status(400).json(error));
 });
 

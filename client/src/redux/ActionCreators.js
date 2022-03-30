@@ -714,7 +714,7 @@ export const fundPosting = () => ({
 });
 
 export const fundPost = (fund) => ({
-    type : ActionTypes.FUNDS_POSTING,
+    type : ActionTypes.FUNDS_POST,
     payload : fund
 });
 

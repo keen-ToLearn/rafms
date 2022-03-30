@@ -19,13 +19,13 @@ router.post('/', (req, res) => {
     });
 
     newStock.save()
-        .then(() => res.json(req.body))
+        .then(stock => res.json(stock))
         .catch(error => res.status(400).json(error));
 });
 
 router.put('/:id', (req, res) => {
     Stocks.findByIdAndUpdate(req.params.id, {$set : req.body}, {new : true})
-        .then(() => res.json(req.body))
+        .then(stock => res.json(stock))
         .catch(error => res.status(400).json(error));
 });
 

@@ -24,13 +24,15 @@ class AdminGiveAccess extends Component{
     handleAccess(event){
         event.preventDefault();
         let uid = 0;
+        let index = 0;
         for(let i=0; i < this.props.users.length; i++){
             if(this.props.users[i].uuname === this.state.accessor){
                 uid = this.props.users[i]._id;
+                index = i;
                 break;
             }
         }
-        const uopenproject = this.props.users[uid].uopenproject;
+        const uopenproject = this.props.users[index].uopenproject;
         for(let i=0; i < this.checkboxes.length; i++){
             if(this.checkboxes[i].checked)
                 uopenproject.push(Number(this.checkboxes[i].value));

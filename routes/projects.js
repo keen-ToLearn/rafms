@@ -21,7 +21,7 @@ router.post('/', (req, res) => {
     });
 
     newProject.save()
-        .then(() => res.json(req.body))
+        .then(project => res.json(project))
         .catch(error => res.status(400).json(error));
 });
 
@@ -33,7 +33,7 @@ router.get('/:id', (req, res) => {
 
 router.put('/:id', (req, res) => {
     Projects.findByIdAndUpdate(req.params.id, {$set : req.body}, { new : true })
-        .then(() => res.json(req.body))
+        .then(project => res.json(project))
         .catch(error => res.status(400).json(error));
 });
 

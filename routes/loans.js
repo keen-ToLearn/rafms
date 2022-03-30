@@ -21,13 +21,13 @@ router.post('/', (req, res) => {
     });
 
     newLoan.save()
-        .then(() => res.json(req.body))
+        .then(loan => res.json(loan))
         .catch(error => res.status(400).json(error));
 });
 
 router.put('/:id', (req, res) => {
     Loans.findByIdAndUpdate(req.params.id, {$set : req.body}, {new : true})
-        .then(() => res.json(req.body))
+        .then(loan => res.json(loan))
         .catch(error => res.status(400).json(error));
 });
 

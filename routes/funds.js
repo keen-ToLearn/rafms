@@ -18,13 +18,13 @@ router.post('/', (req, res) => {
     });
 
     newFund.save()
-        .then(() => res.json(req.body))
+        .then(fund => res.json(fund))
         .catch(error => res.status(400).json(error));
 });
 
 router.put('/:id', (req, res) => {
     Funds.findByIdAndUpdate(req.params.id, {$set : req.body}, {new : true})
-        .then(() => res.json(req.body))
+        .then(fund => res.json(fund))
         .catch(error => res.status(400).json(error));
 });
 
