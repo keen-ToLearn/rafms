@@ -247,6 +247,24 @@ class UserMain extends Component{
                     projectsPut={this.props.projectsPut} complaintsPostDelete={this.props.complaintsPostDelete} salesPostDelete={this.props.salesPostDelete}/>
                 );
         }
+
+        const RenderGlobalCRM = () => {
+            if(this.props.complaints.isLoading)
+                return(<div className="mx-auto"><span className="mt-5 fa fa-circle-o-notch fa-spin fa-3x"></span></div>);
+            else
+                return(
+                    <GlobalCRM complaints={this.props.complaints.complaints} projects={this.props.projects.projects}/>
+                );
+        }
+
+        const RenderGlobalSales = () => {
+            if(this.props.sales.isLoading)
+                return(<div className="mx-auto"><span className="mt-5 fa fa-circle-o-notch fa-spin fa-3x"></span></div>);
+            else
+                return(
+                    <GlobalSales sales={this.props.sales.sales} projects={this.props.projects.projects}/>
+                );
+        }
         return(
             <div className="container-fluid h-100">
                 <HeaderUser isBtnOpen={this.state.isBtnOpen} toggleState={(iBO) => this.toggleState(iBO)} usersLogInOut={this.props.usersLogInOut}
@@ -270,8 +288,8 @@ class UserMain extends Component{
 
                         <Route path="/usermain/finance_transaction" component={() => <FinanceTransaction finances={this.props.finances}/>}/>
                         
-                        <Route path="/usermain/sales_management" component={GlobalSales}/>
-                        <Route path="/usermain/crm" component={GlobalCRM}/>
+                        <Route path="/usermain/sales_management" component={RenderGlobalSales}/>
+                        <Route path="/usermain/crm" component={RenderGlobalCRM}/>
 
                             <Route path="/usermain/inventory/edit_inventory/:einvid" component={RenderINVEditInventory}/>
                             <Route path="/usermain/inventory/add_inventory" component={() => <INVInventoryAddInventory inventoryPost={this.props.inventoryPost} recordsLength={this.props.inventory.inventory.length}/>}/>

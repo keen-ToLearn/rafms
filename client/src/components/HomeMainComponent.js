@@ -89,16 +89,26 @@ class HomeMain extends Component{
                 );
             }
             else{
-                return(
-                    <UserMain projects={this.props.projects} projectsPut={this.props.projectsPut}
-                    user={this.props.users.users.filter((user) => user.uloggedIn)[0]} usersLogInOut={this.props.usersLogInOut} usersAddDeleteTask={this.props.usersAddDeleteTask}
-                    inventory={this.props.inventory} inventoryPost={this.props.inventoryPost} inventoryPut={this.props.inventoryPut} stocksPost={this.props.stocksPost} stocksPut={this.props.stocksPut}
-                    finances={this.props.finances} billsPost={this.props.billsPost} billsPut={this.props.billsPut} loansPost={this.props.loansPost} loansPut={this.props.loansPut} fundsPost={this.props.fundsPost} fundsPut={this.props.fundsPut}
-                    employees={this.props.employees} employeesPost={this.props.employeesPost} employeesPut={this.props.employeesPut} employeesAddLeave={this.props.employeesAddLeave}
-                    employeesUnmarkAttendance={this.props.employeesUnmarkAttendance} employeesMarkAttendance={this.props.employeesMarkAttendance}
-                    sales={this.props.sales} salesPostDelete={this.props.salesPostDelete}
-                    complaints={this.props.complaints} complaintsPostDelete={this.props.complaintsPostDelete}/>
-                );
+                const userIn = this.props.users.users.filter((user) => user.uloggedIn)[0];
+                if(userIn === undefined)
+                    return(
+                        <div className="container-fluid h-100 pt-5 bg-light">
+                            <div className="pt-5">
+                                <h3 className="pt-5">User is logged out. Relaunch the application.</h3>
+                            </div>
+                        </div>
+                    );
+                else
+                    return(
+                        <UserMain projects={this.props.projects} projectsPut={this.props.projectsPut}
+                        user={userIn} usersLogInOut={this.props.usersLogInOut} usersAddDeleteTask={this.props.usersAddDeleteTask}
+                        inventory={this.props.inventory} inventoryPost={this.props.inventoryPost} inventoryPut={this.props.inventoryPut} stocksPost={this.props.stocksPost} stocksPut={this.props.stocksPut}
+                        finances={this.props.finances} billsPost={this.props.billsPost} billsPut={this.props.billsPut} loansPost={this.props.loansPost} loansPut={this.props.loansPut} fundsPost={this.props.fundsPost} fundsPut={this.props.fundsPut}
+                        employees={this.props.employees} employeesPost={this.props.employeesPost} employeesPut={this.props.employeesPut} employeesAddLeave={this.props.employeesAddLeave}
+                        employeesUnmarkAttendance={this.props.employeesUnmarkAttendance} employeesMarkAttendance={this.props.employeesMarkAttendance}
+                        sales={this.props.sales} salesPostDelete={this.props.salesPostDelete}
+                        complaints={this.props.complaints} complaintsPostDelete={this.props.complaintsPostDelete}/>
+                    );
             }
         }
         return(
